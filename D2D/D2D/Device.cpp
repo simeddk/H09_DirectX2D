@@ -116,12 +116,14 @@ void InitDirect3D(HINSTANCE hInstance)
 
 	vector<D3D_FEATURE_LEVEL> featureLevel =
 	{
-		D3D_FEATURE_LEVEL_9_1,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_10_0,
+		//Todo. 높은 버전 순서부터 써줘야 함...
+		//Todo. $(VC_IncludePath);$(WindowsSDK_IncludePath);$(DH);
+		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_11_0
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1
 	};
 
 	HRESULT result = D3D11CreateDeviceAndSwapChain
@@ -158,7 +160,7 @@ void InitDirect3D(HINSTANCE hInstance)
 		HRESULT result;
 		result = D3DX11CompileFromFile
 		(
-			L"Effect.hlsl", NULL,	NULL, "VS", "vs_5_0",
+			L"01_First.hlsl", NULL,	NULL, "VS", "vs_5_0",
 			0, 0, NULL,
 			&VsBlob, NULL, NULL
 		);
@@ -166,7 +168,7 @@ void InitDirect3D(HINSTANCE hInstance)
 
 		result = D3DX11CompileFromFile
 		(
-			L"Effect.hlsl", NULL, NULL, "PS", "ps_5_0",
+			L"01_First.hlsl", NULL, NULL, "PS", "ps_5_0",
 			0, 0, 0,
 			&PsBlob, NULL, NULL
 		);

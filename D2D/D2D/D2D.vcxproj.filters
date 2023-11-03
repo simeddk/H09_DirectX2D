@@ -8,6 +8,6 @@
     <ClInclude Include="Device.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Effect.hlsl" />
+    <None Include="01_First.hlsl" />
   </ItemGroup>
 </Project>

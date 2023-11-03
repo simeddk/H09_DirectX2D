@@ -116,14 +116,13 @@ void InitDirect3D(HINSTANCE hInstance)
 
 	vector<D3D_FEATURE_LEVEL> featureLevel =
 	{
-		//Todo. 높은 버전 순서부터 써줘야 함...
-		//Todo. $(VC_IncludePath);$(WindowsSDK_IncludePath);$(DH);
+		D3D_FEATURE_LEVEL_11_1,
 		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
 		D3D_FEATURE_LEVEL_10_0,
 		D3D_FEATURE_LEVEL_9_3,
 		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1
+		D3D_FEATURE_LEVEL_9_1,
 	};
 
 	HRESULT result = D3D11CreateDeviceAndSwapChain

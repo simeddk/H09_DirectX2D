@@ -6,6 +6,7 @@ ID3D11InputLayout* inputLayout = nullptr;
 struct Vertex
 {
 	D3DXVECTOR3 Position;
+	D3DXCOLOR Color;
 };
 
 void InitScene()
@@ -16,6 +17,11 @@ void InitScene()
 	vertices[1].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.f);
 	vertices[2].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.f);
 	vertices[3].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.f);
+
+	vertices[0].Color = D3DXCOLOR(1, 0, 0, 1);
+	vertices[1].Color = D3DXCOLOR(0, 1, 0, 1);
+	vertices[2].Color = D3DXCOLOR(0, 0, 1, 1);
+	vertices[3].Color = D3DXCOLOR(1, 1, 0, 1);
 
 	//Create Vertex Buffer
 	{
@@ -34,19 +40,36 @@ void InitScene()
 
 	//Create InputLayout
 	{
-		D3D11_INPUT_ELEMENT_DESC desc;
-		desc.SemanticName = "POSITION";
-		desc.SemanticIndex = 0;
-		desc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		desc.InputSlot = 0;
-		desc.AlignedByteOffset = 0;
-		desc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		desc.InstanceDataStepRate = 0;
+		D3D11_INPUT_ELEMENT_DESC desc[] = 
+		{ 
+			//[0]
+			{
+				"POSITION",
+				0,
+				DXGI_FORMAT_R32G32B32_FLOAT,
+				0,
+				0,
+				D3D11_INPUT_PER_VERTEX_DATA,
+				0
+			},
+
+			//[1]
+			{
+				"COLOR",
+				0,
+				DXGI_FORMAT_R32G32B32_FLOAT,
+				0,
+				12,
+				D3D11_INPUT_PER_VERTEX_DATA,
+				0
+			}
+		};
+		
 
 		HRESULT result = Device->CreateInputLayout
 		(
-			&desc,
-			1,
+			desc,
+			2,
 			VsBlob->GetBufferPointer(),
 			VsBlob->GetBufferSize(),
 			&inputLayout

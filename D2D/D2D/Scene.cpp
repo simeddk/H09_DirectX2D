@@ -11,10 +11,10 @@ struct Vertex
 	D3DXCOLOR Color;
 };
 
+Vertex vertices[6];
 void InitScene()
 {
 	//Vertex Data
-	Vertex vertices[6];
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.f);
 	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.f);
 	vertices[2].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.f);
@@ -102,6 +102,40 @@ void Update()
 {
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 		bWireFrameMode = !bWireFrameMode;
+
+	if (Key->Press('A'))
+	{
+		for (int i = 0; i < 6; i++)
+			vertices[i].Position.x -= 1e-4f;
+	}
+	else if (Key->Press('D'))
+	{
+		for (int i = 0; i < 6; i++)
+			vertices[i].Position.x += 1e-4f;
+	}
+
+	if (Key->Press('S'))
+	{
+		for (int i = 0; i < 6; i++)
+			vertices[i].Position.y -= 1e-4f;
+	}
+	else if (Key->Press('W'))
+	{
+		for (int i = 0; i < 6; i++)
+			vertices[i].Position.y += 1e-4f;
+	}
+
+	//UpdateSubresource(GPU, 속도가 느림)
+	DeviceContext->UpdateSubresource
+	(
+		vertexBuffer,
+		0,
+		nullptr,
+		vertices,
+		sizeof(Vertex) * 6,
+		0
+	);
+
 }
 
 void Render()

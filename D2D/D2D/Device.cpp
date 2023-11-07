@@ -8,12 +8,15 @@
 //-----------------------------------------------------------------------------
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	//Create Window and DirectX Resources
 	InitWidow(hInstance, nCmdShow);
 	InitDirect3D(hInstance);
 
+	//GamePlay Runtime
 	Running();
 	Destroy();
 
+	//EndPlay
 	DestroyWindow(Hwnd);
 	UnregisterClass(Title.c_str(), hInstance);
 	return 0;
@@ -37,6 +40,8 @@ ID3D11VertexShader* VertexShader = nullptr;
 ID3D11PixelShader* PixelShader = nullptr;
 ID3D10Blob* VsBlob = nullptr;
 ID3D10Blob* PsBlob = nullptr;
+
+Keyboard* Key = nullptr;
 
 //-----------------------------------------------------------------------------
 //@@ Creaet Window Object
@@ -235,6 +240,10 @@ WPARAM Running()
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
+	//Create SingleTone Object
+	Key = new Keyboard();
+
+	//GamePlay RunTime
 	InitScene();
 
 	while (true)
@@ -252,7 +261,11 @@ WPARAM Running()
 		}
 	}
 
+	//EndPlay
 	DestroyScene();
+
+	delete Key;
+	Key = nullptr;
 
 	return msg.wParam;
 }

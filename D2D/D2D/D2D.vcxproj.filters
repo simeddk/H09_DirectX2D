@@ -3,12 +3,24 @@
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="System\Keyboard.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="System\Keyboard.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="01_First.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="System">
+      <UniqueIdentifier>{7d93e25e-ce67-40c7-ac6c-83ff6f486a89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

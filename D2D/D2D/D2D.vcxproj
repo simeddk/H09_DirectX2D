@@ -91,6 +91,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>./;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -144,10 +146,15 @@
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="System\Keyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="System\Keyboard.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="01_First.hlsl">

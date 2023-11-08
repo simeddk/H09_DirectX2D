@@ -36,10 +36,17 @@ using namespace std;
 #include <imguiDx11.h>
 #pragma comment(lib, "imgui.lib")
 
+//Macros
 #define SafeDelete(p) { if(p) { delete (p); (p) = nullptr; } }
 #define SafeDeleteArray(p) { if(p) { delete[] (p); (p) = nullptr; } }
 #define SafeRelease(p) { if(p) { (p)->Release(); (p) = nullptr; } }
 #define Check(result) { assert(SUCCEEDED(result)); }
+
+//Type Defines
+typedef D3DXVECTOR2 Vector2;
+typedef D3DXVECTOR3 Vector3;
+typedef D3DXCOLOR Color;
+typedef D3DXMATRIX Matrix;
 
 //Framework
 #include "System/Keyboard.h"

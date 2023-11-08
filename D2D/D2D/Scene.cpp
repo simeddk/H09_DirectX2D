@@ -5,42 +5,34 @@ Shader* shader = nullptr;
 
 ID3D11Buffer* vertexBuffer = nullptr;
 ID3D11Buffer* indexBuffer = nullptr;
-ID3D11RasterizerState* rasterizerState = nullptr;
 
 struct Vertex
 {
-	D3DXVECTOR3 Position;
-	D3DXCOLOR Color;
+	Vector3 Position = Vector3(0, 0, 0);
+	Color Color = D3DXCOLOR(1, 1, 1, 1);
 };
 
-Vertex vertices[6];
-UINT indices[12];
+Vertex vertices[4];
+UINT indices[6];
+
+Matrix W, V, P;
 
 void InitScene()
 {
-	shader = new Shader(L"01_First.fx");
+	shader = new Shader(L"02_WorldMatrix.fx");
 
 	//Vertex Data
-	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.f);
-	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.f);
-	vertices[2].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.f);
-	vertices[3].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.f);
-	vertices[4].Position = D3DXVECTOR3(+0.75f, -0.75f, 0.f);
-	vertices[5].Position = D3DXVECTOR3(+0.75f, +0.75f, 0.f);
-
-	vertices[0].Color = D3DXCOLOR(1, 0, 0, 1);
-	vertices[1].Color = D3DXCOLOR(1, 0, 0, 1);
-	vertices[2].Color = D3DXCOLOR(1, 0, 0, 1);
-	vertices[3].Color = D3DXCOLOR(1, 0, 0, 1);
-	vertices[4].Color = D3DXCOLOR(0, 1, 0, 1);
-	vertices[5].Color = D3DXCOLOR(0, 1, 0, 1);
+	vertices[0].Position = Vector3(-100.f, -100.f, 0.f);
+	vertices[1].Position = Vector3(-100.f, +100.f, 0.f);
+	vertices[2].Position = Vector3(+100.f, -100.f, 0.f);
+	vertices[3].Position = Vector3(+100.f, +100.f, 0.f);
 
 	//Create Vertex Buffer
 	{
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
 		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(Vertex) * 6;
+		desc.ByteWidth = sizeof(Vertex) * 4;
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA subResource = { 0 };
@@ -59,17 +51,10 @@ void InitScene()
 		indices[4] = 1;
 		indices[5] = 3;
 
-		indices[6] = 2;
-		indices[7] = 3;
-		indices[8] = 4;
-		indices[9] = 4;
-		indices[10] = 3;
-		indices[11] = 5;
-
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
 		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(UINT) * 12;
+		desc.ByteWidth = sizeof(UINT) * 6;
 		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA subResource = { 0 };
@@ -79,71 +64,42 @@ void InitScene()
 		assert(SUCCEEDED(result));
 	}
 
-	//Create Rasterizer State
-	{
-		D3D11_RASTERIZER_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
-		desc.FillMode = D3D11_FILL_WIREFRAME;
-		desc.CullMode = D3D11_CULL_BACK;
-		HRESULT result = Device->CreateRasterizerState(&desc, &rasterizerState);
-		assert(SUCCEEDED(result));
-	}
+	//Make Matrix Identity
+	D3DXMatrixIdentity(&W);
+	D3DXMatrixIdentity(&V);
+	D3DXMatrixIdentity(&P);
+
+	//Matix Settings
+	// -> World Space
+	D3DXMatrixTranslation(&W, 800, 400, 0.f);
+	//Todo. 키보드 이동은 내일 해보자...
+
+	// -> View Space
+	Vector3 eye = Vector3(0, 0, 0);
+	Vector3 at = Vector3(0, 0, 1);
+	Vector3 up = Vector3(0, 1, 0);
+	D3DXMatrixLookAtLH(&V, &eye, &(eye + at), &up);
+
+	//-> Projection Space
+	D3DXMatrixOrthoOffCenterLH(&P, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
+
+	//Set Matrix Parameter to Shader
+	shader->AsMatrix("World")->SetMatrix(W);
+	shader->AsMatrix("View")->SetMatrix(V);
+	shader->AsMatrix("Projection")->SetMatrix(P);
 }
 
 void DestroyScene()
 {
 	SafeRelease(vertexBuffer);
 	SafeRelease(indexBuffer);
-	SafeRelease(rasterizerState);
+
+	SafeDelete(shader);
 }
 
 
-bool bWireFrameMode = false;
-float color[3];
 void Update()
 {
-	//ImGui Test
-	ImGui::ColorEdit3("Color", color);
-	shader->AsVector("Color")->SetFloatVector(color);
-	ImGui::Text("R : %f, G : %f, B : %f", color[0], color[1], color[2]);
-
-	//WireFrame On/Off
-	if (GetAsyncKeyState(VK_F1) & 0x0001)
-		bWireFrameMode = !bWireFrameMode;
-
-	//Move
-	if (Key->Press('A'))
-	{
-		for (int i = 0; i < 4; i++)
-			vertices[i].Position.x -= 1e-4f;
-	}
-	else if (Key->Press('D'))
-	{
-		for (int i = 0; i < 4; i++)
-			vertices[i].Position.x += 1e-4f;
-	}
-
-	if (Key->Press('S'))
-	{
-		for (int i = 0; i < 4; i++)
-			vertices[i].Position.y -= 1e-4f;
-	}
-	else if (Key->Press('W'))
-	{
-		for (int i = 0; i < 4; i++)
-			vertices[i].Position.y += 1e-4f;
-	}
-
-	//UpdateSubresource(GPU, 속도가 느림)
-	DeviceContext->UpdateSubresource
-	(
-		vertexBuffer,
-		0,
-		nullptr,
-		vertices,
-		sizeof(Vertex) * 6,
-		0
-	);
 
 }
 
@@ -158,9 +114,7 @@ void Render()
 		DeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		DeviceContext->RSSetState(bWireFrameMode ? rasterizerState : nullptr);
-
-		shader->DrawIndexed(0, 0, 12);
+		shader->DrawIndexed(0, 0, 6);
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

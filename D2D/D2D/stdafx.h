@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 #include <bitset>
+#include <algorithm>
+#include <functional>
 using namespace std;
 
 //DirecX SDK
@@ -20,8 +22,30 @@ using namespace std;
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
 
+//External Library
+// -> FX Library
+#include <d3dx11effect.h>
+#pragma comment(lib, "Effects11d.lib")
+
+// -> D3D Compiler
+#include <d3dcompiler.h>
+#pragma comment(lib, "d3dcompiler.lib")
+
+// -> ImGui
+#include <imgui.h>
+#include <imguiDx11.h>
+#pragma comment(lib, "imgui.lib")
+
+#define SafeDelete(p) { if(p) { delete (p); (p) = nullptr; } }
+#define SafeDeleteArray(p) { if(p) { delete[] (p); (p) = nullptr; } }
+#define SafeRelease(p) { if(p) { (p)->Release(); (p) = nullptr; } }
+#define Check(result) { assert(SUCCEEDED(result)); }
+
 //Framework
 #include "System/Keyboard.h"
+#include "Utilities/Path.h"
+#include "Utilities/String.h"
+#include "Renders/Shader.h"
 
 //Global Variable
 extern UINT Width;
@@ -36,9 +60,5 @@ extern ID3D11Device* Device;
 extern ID3D11DeviceContext* DeviceContext;
 extern ID3D11RenderTargetView* RTV;
 
-extern ID3D11VertexShader* VertexShader;
-extern ID3D11PixelShader* PixelShader;
-extern ID3D10Blob* VsBlob;
-extern ID3D10Blob* PsBlob;
-
+//SingleToneLike Global Variable
 extern Keyboard* Key;

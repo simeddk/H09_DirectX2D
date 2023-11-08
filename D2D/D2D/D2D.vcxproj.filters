@@ -7,6 +7,15 @@
     <ClCompile Include="System\Keyboard.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\Shader.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Path.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\String.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
@@ -14,13 +23,25 @@
     <ClInclude Include="System\Keyboard.h">
       <Filter>System</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="01_First.hlsl" />
+    <ClInclude Include="Renders\Shader.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Path.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\String.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="System">
       <UniqueIdentifier>{7d93e25e-ce67-40c7-ac6c-83ff6f486a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renders">
+      <UniqueIdentifier>{35462b59-a534-4321-92e3-59dfc9fe0622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{9196419b-1c13-477f-9a5d-b6692fcf63e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 //Global Functions
 void InitWidow(HINSTANCE hInstance, int nCmdShow);
 void InitDirect3D(HINSTANCE hInstance);

@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Device.h"
 
+Shader* shader = nullptr;
+
 ID3D11Buffer* vertexBuffer = nullptr;
 ID3D11Buffer* indexBuffer = nullptr;
-ID3D11InputLayout* inputLayout = nullptr;
 ID3D11RasterizerState* rasterizerState = nullptr;
 
 struct Vertex
@@ -12,26 +13,34 @@ struct Vertex
 	D3DXCOLOR Color;
 };
 
-Vertex vertices[4];
-UINT indices[6];
+Vertex vertices[6];
+UINT indices[12];
 
 void InitScene()
 {
+	shader = new Shader(L"01_First.fx");
+
 	//Vertex Data
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.f);
 	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.f);
 	vertices[2].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.f);
 	vertices[3].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.f);
+	vertices[4].Position = D3DXVECTOR3(+0.75f, -0.75f, 0.f);
+	vertices[5].Position = D3DXVECTOR3(+0.75f, +0.75f, 0.f);
 
-	for (int i = 0 ; i < 4; i++)
-		vertices[i].Color = D3DXCOLOR(1, 1, 1, 1);
+	vertices[0].Color = D3DXCOLOR(1, 0, 0, 1);
+	vertices[1].Color = D3DXCOLOR(1, 0, 0, 1);
+	vertices[2].Color = D3DXCOLOR(1, 0, 0, 1);
+	vertices[3].Color = D3DXCOLOR(1, 0, 0, 1);
+	vertices[4].Color = D3DXCOLOR(0, 1, 0, 1);
+	vertices[5].Color = D3DXCOLOR(0, 1, 0, 1);
 
 	//Create Vertex Buffer
 	{
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
 		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(Vertex) * 4;
+		desc.ByteWidth = sizeof(Vertex) * 6;
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA subResource = { 0 };
@@ -46,60 +55,27 @@ void InitScene()
 		indices[0] = 0;
 		indices[1] = 1;
 		indices[2] = 2;
-
 		indices[3] = 2;
 		indices[4] = 1;
 		indices[5] = 3;
 
+		indices[6] = 2;
+		indices[7] = 3;
+		indices[8] = 4;
+		indices[9] = 4;
+		indices[10] = 3;
+		indices[11] = 5;
+
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
 		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(UINT) * 6;
+		desc.ByteWidth = sizeof(UINT) * 12;
 		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA subResource = { 0 };
 		subResource.pSysMem = indices;
 
 		HRESULT result = Device->CreateBuffer(&desc, &subResource, &indexBuffer);
-		assert(SUCCEEDED(result));
-	}
-
-	//Create InputLayout
-	{
-		D3D11_INPUT_ELEMENT_DESC desc[] = 
-		{ 
-			//[0]
-			{
-				"POSITION",
-				0,
-				DXGI_FORMAT_R32G32B32_FLOAT,
-				0,
-				0,
-				D3D11_INPUT_PER_VERTEX_DATA,
-				0
-			},
-
-			//[1]
-			{
-				"COLOR",
-				0,
-				DXGI_FORMAT_R32G32B32_FLOAT,
-				0,
-				12,
-				D3D11_INPUT_PER_VERTEX_DATA,
-				0
-			}
-		};
-		
-
-		HRESULT result = Device->CreateInputLayout
-		(
-			desc,
-			2,
-			VsBlob->GetBufferPointer(),
-			VsBlob->GetBufferSize(),
-			&inputLayout
-		);
 		assert(SUCCEEDED(result));
 	}
 
@@ -116,20 +92,26 @@ void InitScene()
 
 void DestroyScene()
 {
-	vertexBuffer->Release();
-	indexBuffer->Release();
-	
-	rasterizerState->Release();
-	inputLayout->Release();
+	SafeRelease(vertexBuffer);
+	SafeRelease(indexBuffer);
+	SafeRelease(rasterizerState);
 }
 
 
 bool bWireFrameMode = false;
+float color[3];
 void Update()
 {
+	//ImGui Test
+	ImGui::ColorEdit3("Color", color);
+	shader->AsVector("Color")->SetFloatVector(color);
+	ImGui::Text("R : %f, G : %f, B : %f", color[0], color[1], color[2]);
+
+	//WireFrame On/Off
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 		bWireFrameMode = !bWireFrameMode;
 
+	//Move
 	if (Key->Press('A'))
 	{
 		for (int i = 0; i < 4; i++)
@@ -175,13 +157,12 @@ void Render()
 		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		DeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		DeviceContext->IASetInputLayout(inputLayout);
 
 		DeviceContext->RSSetState(bWireFrameMode ? rasterizerState : nullptr);
 
-		//DeviceContext->Draw(6, 0);
-		DeviceContext->DrawIndexed(6, 0, 0);
+		shader->DrawIndexed(0, 0, 12);
 	}
+	ImGui::Render();
 	SwapChain->Present(0, 0);
 
 }

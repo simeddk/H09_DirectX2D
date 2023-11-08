@@ -36,11 +36,6 @@ ID3D11Device* Device = nullptr;
 ID3D11DeviceContext* DeviceContext = nullptr;
 ID3D11RenderTargetView* RTV = nullptr;
 
-ID3D11VertexShader* VertexShader = nullptr;
-ID3D11PixelShader* PixelShader = nullptr;
-ID3D10Blob* VsBlob = nullptr;
-ID3D10Blob* PsBlob = nullptr;
-
 Keyboard* Key = nullptr;
 
 //-----------------------------------------------------------------------------
@@ -159,49 +154,6 @@ void InitDirect3D(HINSTANCE hInstance)
 
 	DeviceContext->OMSetRenderTargets(1, &RTV, NULL);
 
-	//Create Shader
-	{
-		//-> Compile Shader
-		HRESULT result;
-		result = D3DX11CompileFromFile
-		(
-			L"01_First.hlsl", NULL,	NULL, "VS", "vs_5_0",
-			0, 0, NULL,
-			&VsBlob, NULL, NULL
-		);
-		assert(SUCCEEDED(result));
-
-		result = D3DX11CompileFromFile
-		(
-			L"01_First.hlsl", NULL, NULL, "PS", "ps_5_0",
-			0, 0, 0,
-			&PsBlob, NULL, NULL
-		);
-		assert(SUCCEEDED(result));
-			
-		//-> Create Shader
-		result = Device->CreateVertexShader
-		(
-			VsBlob->GetBufferPointer(),
-			VsBlob->GetBufferSize(),
-			NULL,
-			&VertexShader
-		);
-		assert(SUCCEEDED(result));
-
-		result = Device->CreatePixelShader
-		(
-			PsBlob->GetBufferPointer(),
-			PsBlob->GetBufferSize(),
-			NULL,
-			&PixelShader
-		);
-		assert(SUCCEEDED(result));
-
-		DeviceContext->VSSetShader(VertexShader, NULL, 0);
-		DeviceContext->PSSetShader(PixelShader, NULL, 0);
-	}
-
 	//Create Viewport
 	{
 		D3D11_VIEWPORT viewport;
@@ -221,15 +173,10 @@ void InitDirect3D(HINSTANCE hInstance)
 //-----------------------------------------------------------------------------
 void Destroy()
 {
-	SwapChain->Release();
-	Device->Release();
-	DeviceContext->Release();
-	RTV->Release();
-
-	VertexShader->Release();
-	PixelShader->Release();
-	VsBlob->Release();
-	PsBlob->Release();
+	SafeRelease(SwapChain);
+	SafeRelease(Device);
+	SafeRelease(DeviceContext);
+	SafeRelease(RTV);
 }
 
 //-----------------------------------------------------------------------------
@@ -241,6 +188,9 @@ WPARAM Running()
 	ZeroMemory(&msg, sizeof(MSG));
 
 	//Create SingleTone Object
+	ImGui::Create(Hwnd, Device, DeviceContext);
+	ImGui::StyleColorsDark();
+
 	Key = new Keyboard();
 
 	//GamePlay RunTime
@@ -256,16 +206,17 @@ WPARAM Running()
 		}
 		else
 		{
+			ImGui::Update();
 			Update();
+
 			Render();
 		}
 	}
 
 	//EndPlay
 	DestroyScene();
-
-	delete Key;
-	Key = nullptr;
+	ImGui::Delete();
+	SafeDelete(Key);
 
 	return msg.wParam;
 }
@@ -275,6 +226,9 @@ WPARAM Running()
 //-----------------------------------------------------------------------------
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui::WndProc(Hwnd, msg, wParam, lParam))
+		return true;
+
 	switch (msg)
 	{
 	case WM_DESTROY: PostQuitMessage(0); return 0;

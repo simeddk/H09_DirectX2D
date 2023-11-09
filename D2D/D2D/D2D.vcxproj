@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Objects\Rect.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
+    <ClInclude Include="Objects\Rect.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System\Keyboard.h" />

@@ -1,6 +1,10 @@
 matrix World;
-matrix View;
-matrix Projection;
+
+cbuffer CB_PerFrame
+{
+	matrix View;
+	matrix Projection;
+};
 
 struct VertexInput
 {

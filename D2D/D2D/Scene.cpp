@@ -1,139 +1,48 @@
 #include "stdafx.h"
 #include "Device.h"
+#include "Objects/Rect.h"
 
 Shader* shader = nullptr;
+Matrix V, P;
 
-ID3D11Buffer* vertexBuffer = nullptr;
-ID3D11Buffer* indexBuffer = nullptr;
-
-struct Vertex
-{
-	Vector3 Position = Vector3(0, 0, 0);
-	Color Color = D3DXCOLOR(1, 1, 1, 1);
-};
-
-Vertex vertices[4];
-UINT indices[6];
-
-Matrix W, V, P;
-Matrix W2;
+Rect* rect = nullptr;
+Rect* rect2 = nullptr;
 
 void InitScene()
 {
 	shader = new Shader(L"02_WorldMatrix.fx");
+	
+	rect = new Rect(shader);
+	rect->Position(200, 500);
+	rect->Scale(100, 100);
+	rect->Color(1, 0, 0);
 
-	//Vertex Data
-	vertices[0].Position = Vector3(-0.5f, -0.5f, 0.f);
-	vertices[1].Position = Vector3(-0.5f, +0.5f, 0.f);
-	vertices[2].Position = Vector3(+0.5f, -0.5f, 0.f);
-	vertices[3].Position = Vector3(+0.5f, +0.5f, 0.f);
+	rect2 = new Rect(shader, Vector2(500, 500), Vector2(50, 50), Color(0, 0, 1, 1));
 
-	//Create Vertex Buffer
-	{
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
-		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(Vertex) * 4;
-		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-		D3D11_SUBRESOURCE_DATA subResource = { 0 };
-		subResource.pSysMem = vertices;
-
-		HRESULT result = Device->CreateBuffer(&desc, &subResource, &vertexBuffer);
-		assert(SUCCEEDED(result));
-	}
-
-	//Create Index Buffer
-	{
-		indices[0] = 0;
-		indices[1] = 1;
-		indices[2] = 2;
-		indices[3] = 2;
-		indices[4] = 1;
-		indices[5] = 3;
-
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
-		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(UINT) * 6;
-		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-		D3D11_SUBRESOURCE_DATA subResource = { 0 };
-		subResource.pSysMem = indices;
-
-		HRESULT result = Device->CreateBuffer(&desc, &subResource, &indexBuffer);
-		assert(SUCCEEDED(result));
-	}
-
-	//Make Matrix Identity
-	D3DXMatrixIdentity(&W);
-	D3DXMatrixIdentity(&V);
-	D3DXMatrixIdentity(&P);
-
-	//Matix Settings
-	// -> View Space
-	Vector3 eye = Vector3(0, 0, 0);
-	Vector3 at = Vector3(0, 0, 1);
-	Vector3 up = Vector3(0, 1, 0);
-	D3DXMatrixLookAtLH(&V, &eye, &(eye + at), &up);
-
-	//-> Projection Space
-	D3DXMatrixOrthoOffCenterLH(&P, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
-
-	//Set Matrix Parameter to Shader
-	shader->AsMatrix("View")->SetMatrix(V);
-	shader->AsMatrix("Projection")->SetMatrix(P);
+	
 }
 
 void DestroyScene()
 {
-	SafeRelease(vertexBuffer);
-	SafeRelease(indexBuffer);
-
 	SafeDelete(shader);
+	SafeDelete(rect);
+	SafeDelete(rect2);
 }
 
 
-Vector2 position = Vector2(110, 110);
-Vector2 position2 = Vector2(500, 110);
 void Update()
 {
-	//World1
+	//Transient Camera
 	{
-		if (Key->Press('W'))
-			position.y += 0.1f;
-		else if (Key->Press('S'))
-			position.y -= 0.1f;
-
-		if (Key->Press('D'))
-			position.x += 0.1f;
-		else if (Key->Press('A'))
-			position.x -= 0.1f;
-
-		Matrix S, T;
-		D3DXMatrixScaling(&S, 100, 100, 1);
-		D3DXMatrixTranslation(&T, position.x, position.y, 0.f);
-		W = S * T;
+		Vector3 eye = Vector3(0, 0, 0);
+		Vector3 at = Vector3(0, 0, 1);
+		Vector3 up = Vector3(0, 1, 0);
+		D3DXMatrixLookAtLH(&V, &eye, &(eye + at), &up);
+		D3DXMatrixOrthoOffCenterLH(&P, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
 	}
 
-	
-	//World2
-	{
-		if (Key->Press(VK_LEFT))
-			position2.x -= 0.1f;
-		else if (Key->Press(VK_RIGHT))
-			position2.x += 0.1f;
-
-		if (Key->Press(VK_DOWN))
-			position2.y -= 0.1f;
-		else if (Key->Press(VK_UP))
-			position2.y += 0.1f;
-
-		Matrix S, T;
-		D3DXMatrixScaling(&S, 50, 75, 1);
-		D3DXMatrixTranslation(&T, position2.x, position2.y, 0.f);
-		W2 = S * T;
-	}
+	rect->Update(V, P);
+	rect2->Update(V, P);
 }
 
 void Render()
@@ -141,22 +50,8 @@ void Render()
 	D3DXCOLOR clearColor = D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.f);
 	DeviceContext->ClearRenderTargetView(RTV, clearColor);
 	{
-		UINT stride = sizeof(Vertex);
-		UINT offset = 0;
-		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-		DeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		static int pass = 0;
-		ImGui::SliderInt("Pass", &pass, 0, 2);
-
-		shader->AsMatrix("World")->SetMatrix(W);
-		shader->AsVector("Color")->SetFloatVector(Color(1, 0, 0, 1));
-		shader->DrawIndexed(0, pass, 6);
-
-		shader->AsMatrix("World")->SetMatrix(W2);
-		shader->AsVector("Color")->SetFloatVector(Color(0, 1, 0, 1));
-		shader->DrawIndexed(0, pass, 6);
+		rect->Render();
+		rect2->Render();
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

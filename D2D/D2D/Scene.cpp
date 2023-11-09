@@ -16,6 +16,7 @@ Vertex vertices[4];
 UINT indices[6];
 
 Matrix W, V, P;
+Matrix W2;
 
 void InitScene()
 {
@@ -94,36 +95,45 @@ void DestroyScene()
 
 
 Vector2 position = Vector2(110, 110);
+Vector2 position2 = Vector2(500, 110);
 void Update()
 {
-	if (Key->Press('W'))
-		position.y += 0.1f;
-	else if (Key->Press('S'))
-		position.y -= 0.1f;
+	//World1
+	{
+		if (Key->Press('W'))
+			position.y += 0.1f;
+		else if (Key->Press('S'))
+			position.y -= 0.1f;
 
-	if (Key->Press('D'))
-		position.x += 0.1f;
-	else if (Key->Press('A'))
-		position.x -= 0.1f;
+		if (Key->Press('D'))
+			position.x += 0.1f;
+		else if (Key->Press('A'))
+			position.x -= 0.1f;
 
-	Matrix S, T;
+		Matrix S, T;
+		D3DXMatrixScaling(&S, 100, 100, 1);
+		D3DXMatrixTranslation(&T, position.x, position.y, 0.f);
+		W = S * T;
+	}
+
 	
-	static Vector2 scale = Vector2(100, 100);
-	if (Key->Press(VK_LEFT))
-		scale.x -= 0.1f;
-	else if (Key->Press(VK_RIGHT))
-		scale.x += 0.1f;
+	//World2
+	{
+		if (Key->Press(VK_LEFT))
+			position2.x -= 0.1f;
+		else if (Key->Press(VK_RIGHT))
+			position2.x += 0.1f;
 
-	if (Key->Press(VK_DOWN))
-		scale.y -= 0.1f;
-	else if (Key->Press(VK_UP))
-		scale.y += 0.1f;
+		if (Key->Press(VK_DOWN))
+			position2.y -= 0.1f;
+		else if (Key->Press(VK_UP))
+			position2.y += 0.1f;
 
-	D3DXMatrixScaling(&S, scale.x, scale.y, 1);
-	D3DXMatrixTranslation(&T, position.x, position.y, 0.f);
-	W = S * T;
-
-	shader->AsMatrix("World")->SetMatrix(W);
+		Matrix S, T;
+		D3DXMatrixScaling(&S, 50, 75, 1);
+		D3DXMatrixTranslation(&T, position2.x, position2.y, 0.f);
+		W2 = S * T;
+	}
 }
 
 void Render()
@@ -139,6 +149,13 @@ void Render()
 
 		static int pass = 0;
 		ImGui::SliderInt("Pass", &pass, 0, 2);
+
+		shader->AsMatrix("World")->SetMatrix(W);
+		shader->AsVector("Color")->SetFloatVector(Color(1, 0, 0, 1));
+		shader->DrawIndexed(0, pass, 6);
+
+		shader->AsMatrix("World")->SetMatrix(W2);
+		shader->AsVector("Color")->SetFloatVector(Color(0, 1, 0, 1));
 		shader->DrawIndexed(0, pass, 6);
 	}
 	ImGui::Render();

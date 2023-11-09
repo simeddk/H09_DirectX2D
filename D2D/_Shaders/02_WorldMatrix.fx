@@ -26,9 +26,10 @@ VertexOutput VS(VertexInput input)
 	return output;
 }
 
+float4 Color;
 float4 PS(VertexOutput input) : SV_Target
 {
-	return float4(0, 1, 1, 1);
+	return Color;
 }
 
 float4 PS2(VertexOutput input) : SV_Target

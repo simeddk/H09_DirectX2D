@@ -31,11 +31,35 @@ float4 PS(VertexOutput input) : SV_Target
 	return float4(0, 1, 1, 1);
 }
 
+float4 PS2(VertexOutput input) : SV_Target
+{
+	return input.Color;
+}
+
+RasterizerState FillMode_WireFrame
+{
+	FillMode = WireFrame;
+};
+
 technique11 T0
 {
 	pass P0
 	{
-		SetVertexShader(CompileShader(vs_5_0, VS())); //VSSet + VsBlob
-		SetPixelShader(CompileShader(ps_5_0, PS())); //PSSet + PsBlob
+		SetVertexShader(CompileShader(vs_5_0, VS()));
+		SetPixelShader(CompileShader(ps_5_0, PS()));
+	}
+
+	pass P1
+	{
+		SetVertexShader(CompileShader(vs_5_0, VS()));
+		SetPixelShader(CompileShader(ps_5_0, PS2()));
+	}
+
+	pass P2
+	{
+		SetRasterizerState(FillMode_WireFrame);
+
+		SetVertexShader(CompileShader(vs_5_0, VS()));
+		SetPixelShader(CompileShader(ps_5_0, PS2()));
 	}
 }

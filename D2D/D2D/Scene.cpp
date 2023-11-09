@@ -70,10 +70,6 @@ void InitScene()
 	D3DXMatrixIdentity(&P);
 
 	//Matix Settings
-	// -> World Space
-	D3DXMatrixTranslation(&W, 800, 400, 0.f);
-	//Todo. 키보드 이동은 내일 해보자...
-
 	// -> View Space
 	Vector3 eye = Vector3(0, 0, 0);
 	Vector3 at = Vector3(0, 0, 1);
@@ -84,7 +80,6 @@ void InitScene()
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
 
 	//Set Matrix Parameter to Shader
-	shader->AsMatrix("World")->SetMatrix(W);
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
 }
@@ -98,9 +93,33 @@ void DestroyScene()
 }
 
 
+Vector2 position = Vector2(110, 110);
 void Update()
 {
+	// -> Move
+	if (Key->Press('W'))
+		position.y += 0.1f;
+	else if (Key->Press('S'))
+		position.y -= 0.1f;
 
+	if (Key->Press('D'))
+		position.x += 0.1f;
+	else if (Key->Press('A'))
+		position.x -= 0.1f;
+
+	// -> World Space
+	D3DXMatrixTranslation(&W, position.x, position.y, 0.f);
+	shader->AsMatrix("World")->SetMatrix(W);
+
+
+	// -> View Space
+	ImGui::SliderFloat("Eye X", &V._41, -800, 800);
+	ImGui::SliderFloat("Eye Z", &V._43, 0, 2000);
+	shader->AsMatrix("View")->SetMatrix(V);
+
+	// -> Projection Space(Screen Space)
+	D3DXMatrixPerspectiveFovLH(&P, 3.141592 * 0.5f, (float)Width / (float)Height, 0, 1000);
+	shader->AsMatrix("Projection")->SetMatrix(P);
 }
 
 void Render()
@@ -114,7 +133,9 @@ void Render()
 		DeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		shader->DrawIndexed(0, 0, 6);
+		static int pass = 0;
+		ImGui::SliderInt("Pass", &pass, 0, 2);
+		shader->DrawIndexed(0, pass, 6);
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

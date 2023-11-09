@@ -22,10 +22,10 @@ void InitScene()
 	shader = new Shader(L"02_WorldMatrix.fx");
 
 	//Vertex Data
-	vertices[0].Position = Vector3(-100.f, -100.f, 0.f);
-	vertices[1].Position = Vector3(-100.f, +100.f, 0.f);
-	vertices[2].Position = Vector3(+100.f, -100.f, 0.f);
-	vertices[3].Position = Vector3(+100.f, +100.f, 0.f);
+	vertices[0].Position = Vector3(-0.5f, -0.5f, 0.f);
+	vertices[1].Position = Vector3(-0.5f, +0.5f, 0.f);
+	vertices[2].Position = Vector3(+0.5f, -0.5f, 0.f);
+	vertices[3].Position = Vector3(+0.5f, +0.5f, 0.f);
 
 	//Create Vertex Buffer
 	{
@@ -96,7 +96,6 @@ void DestroyScene()
 Vector2 position = Vector2(110, 110);
 void Update()
 {
-	// -> Move
 	if (Key->Press('W'))
 		position.y += 0.1f;
 	else if (Key->Press('S'))
@@ -107,19 +106,24 @@ void Update()
 	else if (Key->Press('A'))
 		position.x -= 0.1f;
 
-	// -> World Space
-	D3DXMatrixTranslation(&W, position.x, position.y, 0.f);
+	Matrix S, T;
+	
+	static Vector2 scale = Vector2(100, 100);
+	if (Key->Press(VK_LEFT))
+		scale.x -= 0.1f;
+	else if (Key->Press(VK_RIGHT))
+		scale.x += 0.1f;
+
+	if (Key->Press(VK_DOWN))
+		scale.y -= 0.1f;
+	else if (Key->Press(VK_UP))
+		scale.y += 0.1f;
+
+	D3DXMatrixScaling(&S, scale.x, scale.y, 1);
+	D3DXMatrixTranslation(&T, position.x, position.y, 0.f);
+	W = S * T;
+
 	shader->AsMatrix("World")->SetMatrix(W);
-
-
-	// -> View Space
-	ImGui::SliderFloat("Eye X", &V._41, -800, 800);
-	ImGui::SliderFloat("Eye Z", &V._43, 0, 2000);
-	shader->AsMatrix("View")->SetMatrix(V);
-
-	// -> Projection Space(Screen Space)
-	D3DXMatrixPerspectiveFovLH(&P, 3.141592 * 0.5f, (float)Width / (float)Height, 0, 1000);
-	shader->AsMatrix("Projection")->SetMatrix(P);
 }
 
 void Render()

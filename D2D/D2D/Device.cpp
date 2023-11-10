@@ -191,6 +191,9 @@ WPARAM Running()
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
 
+	Time::Create();
+	Time::Get()->Start();
+
 	Key = new Keyboard();
 
 	//GamePlay RunTime
@@ -206,6 +209,7 @@ WPARAM Running()
 		}
 		else
 		{
+			Time::Get()->Update();
 			ImGui::Update();
 			Update();
 
@@ -215,6 +219,7 @@ WPARAM Running()
 
 	//EndPlay
 	DestroyScene();
+	Time::Delete();
 	ImGui::Delete();
 	SafeDelete(Key);
 

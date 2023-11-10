@@ -145,7 +145,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Device.cpp" />
     <ClCompile Include="Objects\MovableRect.cpp" />
     <ClCompile Include="Objects\Rect.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
@@ -153,17 +152,18 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="System\Device.cpp" />
     <ClCompile Include="System\Keyboard.cpp" />
     <ClCompile Include="System\Time.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Device.h" />
     <ClInclude Include="Objects\MovableRect.h" />
     <ClInclude Include="Objects\Rect.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="System\Device.h" />
     <ClInclude Include="System\Keyboard.h" />
     <ClInclude Include="System\Time.h" />
     <ClInclude Include="Utilities\Path.h" />

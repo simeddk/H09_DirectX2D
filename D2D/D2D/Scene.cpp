@@ -1,37 +1,71 @@
 #include "stdafx.h"
-#include "Device.h"
-#include "Objects/Rect.h"
-#include "Objects/MovableRect.h"
+#include "System/Device.h"
 
 Shader* shader = nullptr;
 Matrix V, P;
 
-Rect* rect = nullptr;
-Rect* rect2 = nullptr;
-MovableRect* movableRect = nullptr;
+struct Vertex
+{
+	Vector3 Position;
+	Vector2 Uv;
+} vertices[6];
+
+ID3D11Buffer* vertexBuffer = nullptr;
+ID3D11ShaderResourceView* srv = nullptr;
 
 void InitScene()
 {
-	shader = new Shader(L"02_WorldMatrix.fx");
+	shader = new Shader(L"03_Texture.fx");
 
-	rect = new Rect(shader);
-	rect->Position(200, 500);
-	rect->Scale(100, 100);
-	rect->Color(1, 0, 0);
+	//Vertex Data
+	vertices[0].Position = Vector3(-0.5f, -0.5f, 0.f);
+	vertices[1].Position = Vector3(-0.5f, +0.5f, 0.f);
+	vertices[2].Position = Vector3(+0.5f, -0.5f, 0.f);
+	vertices[3].Position = Vector3(+0.5f, -0.5f, 0.f);
+	vertices[4].Position = Vector3(-0.5f, +0.5f, 0.f);
+	vertices[5].Position = Vector3(+0.5f, +0.5f, 0.f);
 
-	rect2 = new Rect(shader, Vector2(500, 500), Vector2(50, 50), Color(0, 0, 1, 1));
+	vertices[0].Uv = Vector2(0, 1);
+	vertices[1].Uv = Vector2(0, 0);
+	vertices[2].Uv = Vector2(1, 1);
+	vertices[3].Uv = Vector2(1, 1);
+	vertices[4].Uv = Vector2(0, 0);
+	vertices[5].Uv = Vector2(1, 0);
 
-	movableRect = new MovableRect(shader);
-	movableRect->Scale(100, 100);
-	movableRect->Position(Width * 0.5f, movableRect->Scale().y * 0.5f);
+	//Create Vertex Buffer
+	{
+		D3D11_BUFFER_DESC desc;
+		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
+		desc.ByteWidth = sizeof(Vertex) * 6;
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA subResource = { 0 };
+		subResource.pSysMem = vertices;
+
+		Check(Device->CreateBuffer(&desc, &subResource, &vertexBuffer));
+	}
+
+	//Create SRV
+	{
+		Check(D3DX11CreateShaderResourceViewFromFile
+		(
+			Device,
+			//L"../../_Textures/Distortion.png",
+			L"../../_Textures/ScopeDog.png",
+			nullptr,
+			nullptr,
+			&srv,
+			nullptr
+		));
+	}
 }
 
 void DestroyScene()
 {
 	SafeDelete(shader);
-	SafeDelete(rect);
-	SafeDelete(rect2);
-	SafeDelete(movableRect);
+	
+	SafeRelease(vertexBuffer);
+	SafeRelease(srv);
 }
 
 
@@ -46,39 +80,7 @@ void Update()
 		D3DXMatrixOrthoOffCenterLH(&P, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
 	}
 
-	//Rect Test
-	{
-		rect->Update(V, P);
-		rect2->Update(V, P);
-
-		if (Key->Press('D'))
-			movableRect->MoveRight();
-		else if (Key->Press('A'))
-			movableRect->MoveLeft();
-
-		if (Key->Down(VK_SPACE))
-			movableRect->StartJump();
-		else if (Key->Up(VK_SPACE))
-			movableRect->EndJump();
-
-		movableRect->Update(V, P);
-	}
-
-	//ImGui Test
-	{
-		float moveSpeed = movableRect->MoveSpeed();
-		ImGui::SliderFloat("MoveSpeed", &moveSpeed, 0.0001f, 0.5f);
-		movableRect->MoveSpeed(moveSpeed);
-
-		ImGui::Text("FPS : %.2f",  ImGui::GetIO().Framerate);
-
-		ImGui::Text("dt : %f", Time::Delta());
-
-		static float runningTime;
-		runningTime += Time::Delta();
-		ImGui::Text("RunningTime : %f", runningTime);
-	}
-
+	
 }
 
 void Render()
@@ -86,9 +88,33 @@ void Render()
 	D3DXCOLOR clearColor = D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.f);
 	DeviceContext->ClearRenderTargetView(RTV, clearColor);
 	{
-		rect->Render();
-		rect2->Render();
-		movableRect->Render();
+		//World Matrix
+		Matrix S, T, W;
+		D3DXMatrixScaling(&S, 380, 380, 1);
+		D3DXMatrixTranslation(&T, 500, 350, 0);
+		W = S * T;
+
+		//Matrix to Shader(W, V, P)
+		shader->AsMatrix("World")->SetMatrix(W);
+		shader->AsMatrix("View")->SetMatrix(V);
+		shader->AsMatrix("Projection")->SetMatrix(P);
+
+		//SRV to Shader
+		shader->AsSRV("DiffuseMap")->SetResource(srv);
+		
+		//IASet VertexBuffer
+		UINT stride = sizeof(Vertex);
+		UINT offset = 0;
+		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		
+		//Time Parmeter Test
+		shader->AsScalar("Time")->SetFloat(Time::Get()->Running());
+
+		//Draw Call
+		static int pass = 1;
+		ImGui::SliderInt("Pass", &pass, 0, 2);
+		shader->Draw(0, pass, 6);
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

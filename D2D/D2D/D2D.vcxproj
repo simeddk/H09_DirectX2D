@@ -149,6 +149,7 @@
     <ClCompile Include="Objects\Rect.cpp" />
     <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
+    <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -164,6 +165,7 @@
     <ClInclude Include="Objects\Rect.h" />
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Shader.h" />
+    <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System\Device.h" />
     <ClInclude Include="System\Keyboard.h" />

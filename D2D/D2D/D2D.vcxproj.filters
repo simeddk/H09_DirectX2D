@@ -30,6 +30,9 @@
     <ClCompile Include="Renders\PerFrame.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\Sprite.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -58,6 +61,9 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Renders\PerFrame.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Sprite.h">
       <Filter>Renders</Filter>
     </ClInclude>
   </ItemGroup>

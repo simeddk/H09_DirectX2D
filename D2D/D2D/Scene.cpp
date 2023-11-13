@@ -71,15 +71,6 @@ void DestroyScene()
 
 void Update()
 {
-	//Transient Camera
-	{
-		Vector3 eye = Vector3(0, 0, 0);
-		Vector3 at = Vector3(0, 0, 1);
-		Vector3 up = Vector3(0, 1, 0);
-		D3DXMatrixLookAtLH(&V, &eye, &(eye + at), &up);
-		D3DXMatrixOrthoOffCenterLH(&P, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
-	}
-
 	
 }
 

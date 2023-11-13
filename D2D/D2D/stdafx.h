@@ -42,6 +42,8 @@ using namespace std;
 #define SafeDeleteArray(p) { if(p) { delete[] (p); (p) = nullptr; } }
 #define SafeRelease(p) { if(p) { (p)->Release(); (p) = nullptr; } }
 #define Check(result) { assert(SUCCEEDED(result)); }
+#define CheckNull(p) { if (p == nullptr) return; }
+#define CheckNullResult(p, result) { if (p == nullptr) return result; }
 
 //Type Defines
 typedef D3DXVECTOR2 Vector2;

@@ -2,7 +2,6 @@
 #include "System/Device.h"
 
 Shader* shader = nullptr;
-Matrix V, P;
 
 struct Vertex
 {
@@ -16,6 +15,7 @@ ID3D11ShaderResourceView* srv = nullptr;
 void InitScene()
 {
 	shader = new Shader(L"03_Texture.fx");
+	PerFrame::Get()->SetShader(shader);
 
 	//Vertex Data
 	vertices[0].Position = Vector3(-0.5f, -0.5f, 0.f);
@@ -76,38 +76,31 @@ void Update()
 
 void Render()
 {
-	D3DXCOLOR clearColor = D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.f);
-	DeviceContext->ClearRenderTargetView(RTV, clearColor);
-	{
-		//World Matrix
-		Matrix S, T, W;
-		D3DXMatrixScaling(&S, 380, 380, 1);
-		D3DXMatrixTranslation(&T, 500, 350, 0);
-		W = S * T;
+	//World Matrix
+	Matrix S, T, W;
+	D3DXMatrixScaling(&S, 380, 380, 1);
+	D3DXMatrixTranslation(&T, 500, 350, 0);
+	W = S * T;
 
-		//Matrix to Shader(W, V, P)
-		shader->AsMatrix("World")->SetMatrix(W);
-		shader->AsMatrix("View")->SetMatrix(V);
-		shader->AsMatrix("Projection")->SetMatrix(P);
+	//Matrix to Shader(W, V, P)
+	shader->AsMatrix("World")->SetMatrix(W);
 
-		//SRV to Shader
-		shader->AsSRV("DiffuseMap")->SetResource(srv);
+	//SRV to Shader
+	shader->AsSRV("DiffuseMap")->SetResource(srv);
 		
-		//IASet VertexBuffer
-		UINT stride = sizeof(Vertex);
-		UINT offset = 0;
-		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//IASet VertexBuffer
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
-		//Time Parmeter Test
-		shader->AsScalar("Time")->SetFloat(Time::Get()->Running());
+	//Time Parmeter Test
+	shader->AsScalar("Time")->SetFloat(Time::Get()->Running());
 
-		//Draw Call
-		static int pass = 1;
-		ImGui::SliderInt("Pass", &pass, 0, 2);
-		shader->Draw(0, pass, 6);
-	}
-	ImGui::Render();
-	SwapChain->Present(0, 0);
+	//Draw Call
+	static int pass = 1;
+	ImGui::SliderInt("Pass", &pass, 0, 2);
+	shader->Draw(0, pass, 6);
+	
 
 }

@@ -194,6 +194,8 @@ WPARAM Running()
 	Time::Create();
 	Time::Get()->Start();
 
+	PerFrame::Create();
+
 	Key = new Keyboard();
 
 	//GamePlay RunTime
@@ -209,16 +211,29 @@ WPARAM Running()
 		}
 		else
 		{
+			//Update
 			Time::Get()->Update();
 			ImGui::Update();
+
+			PerFrame::Get()->Update();
 			Update();
 
-			Render();
+			//Render
+			PerFrame::Get()->Render();
+
+			D3DXCOLOR clearColor = D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.f);
+			DeviceContext->ClearRenderTargetView(RTV, clearColor);
+			{
+				Render();
+			}
+			ImGui::Render();
+			SwapChain->Present(0, 0);
 		}
 	}
 
 	//EndPlay
 	DestroyScene();
+	PerFrame::Delete();
 	Time::Delete();
 	ImGui::Delete();
 	SafeDelete(Key);

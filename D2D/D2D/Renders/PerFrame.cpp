@@ -37,7 +37,7 @@ void PerFrame::SetShader(Shader* shader)
 	//Create Constant Buffer
 	{
 		D3D11_BUFFER_DESC bufferDesc;
-		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
+		ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
 		bufferDesc.ByteWidth = sizeof(Desc);
 		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -57,7 +57,8 @@ void PerFrame::Update()
 	Vector3 up = Vector3(0, 1, 0);
 	D3DXMatrixLookAtLH(&desc.View, &eye, &(eye + at), &up);
 
-	D3DXMatrixOrthoOffCenterLH(&desc.Projection, 0, (FLOAT)Width, 0, (FLOAT)Height, -1, 1);
+	Vector2 screenSize = Vector2((FLOAT)Width, (FLOAT)Height);
+	D3DXMatrixOrthoOffCenterLH(&desc.Projection, 0, screenSize.x, 0, screenSize.y, -1, 1);
 }
 
 void PerFrame::Render()

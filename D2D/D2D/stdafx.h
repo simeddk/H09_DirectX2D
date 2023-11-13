@@ -54,9 +54,12 @@ typedef D3DXMATRIX Matrix;
 //Framework
 #include "System/Keyboard.h"
 #include "System/Time.h"
+
 #include "Utilities/Path.h"
 #include "Utilities/String.h"
+
 #include "Renders/Shader.h"
+#include "Renders/PerFrame.h"
 
 //Global Variable
 extern UINT Width;

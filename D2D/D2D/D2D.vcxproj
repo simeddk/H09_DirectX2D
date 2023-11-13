@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Objects\MovableRect.cpp" />
     <ClCompile Include="Objects\Rect.cpp" />
+    <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Objects\MovableRect.h" />
     <ClInclude Include="Objects\Rect.h" />
+    <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System\Device.h" />

@@ -105,7 +105,7 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
-
+	
 }
 
 void Sprite::Render()

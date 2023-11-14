@@ -17,6 +17,9 @@ public:
 	void Update();
 	void Render();
 
+	Matrix View() { return desc.View; }
+	Matrix Projection() { return desc.Projection; }
+
 private:
 	struct Desc
 	{

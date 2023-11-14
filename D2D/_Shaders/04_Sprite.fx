@@ -14,7 +14,15 @@ cbuffer CB_PerFrame
 //-------------------------------------------------------------------
 //States
 //-------------------------------------------------------------------
-SamplerState samplerState;
+SamplerState LinearSampler
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+};
+
+SamplerState PointSampler
+{
+	Filter = MIN_MAG_MIP_POINT;
+};
 
 BlendState Translucent
 {
@@ -58,7 +66,12 @@ VertexOutput VS(VertexInput input)
 
 float4 PS(VertexOutput input) : SV_Target
 {
-	return DiffuseMap.Sample(samplerState, input.Uv);
+	return DiffuseMap.Sample(PointSampler, input.Uv);
+}
+
+float4 PS2(VertexOutput input) : SV_Target
+{
+	return DiffuseMap.Sample(LinearSampler, input.Uv);
 }
 
 technique11 T0
@@ -67,6 +80,14 @@ technique11 T0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
 		SetPixelShader(CompileShader(ps_5_0, PS()));
+
+		SetBlendState(Translucent, float4(0, 0, 0, 0), 0xFF);
+	}
+
+	pass P1
+	{
+		SetVertexShader(CompileShader(vs_5_0, VS()));
+		SetPixelShader(CompileShader(ps_5_0, PS2()));
 
 		SetBlendState(Translucent, float4(0, 0, 0, 0), 0xFF);
 	}

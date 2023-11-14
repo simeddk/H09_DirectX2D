@@ -22,8 +22,9 @@ Background::Background(Shader* shader)
 
 	rectShader = new Shader(L"05_Rect.fx");
 	rect = new Rect(rectShader);
-	rect->Position(Width * 0.5f, Height * 0.5f);
-	rect->Scale(800, 600);
+	rect->Position((float)Width * 0.5f, (float)Height * 0.5f);
+	rect->Scale((float)Width, (float)Height);
+	rect->Color(0, 0, 1);
 }
 
 Background::~Background()
@@ -46,6 +47,8 @@ void Background::Update()
 
 void Background::Render()
 {
+	rect->Render();
+
 	cloud[0]->Position(240, 600);
 	cloud[0]->Render();
 
@@ -75,9 +78,4 @@ void Background::Render()
 		tile->Position(i * tile->Scale().x, 60);
 		tile->Render();
 	}
-
-	static Vector2 rectScale = Vector2(800, 600);
-	ImGui::SliderFloat2("Rect Scale", (float*)&rectScale, 100, 1500);
-	rect->Scale(rectScale);
-	rect->Render();
 }

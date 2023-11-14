@@ -9,11 +9,13 @@ cbuffer CB_PerFrame
 struct VertexInput
 {
 	float4 Position : Position;
+	float2 Uv : Uv;
 };
 
 struct VertexOutput
 {
 	float4 Position : SV_Position;
+	float2 Uv : Uv;
 };
 
 VertexOutput VS(VertexInput input)
@@ -22,6 +24,8 @@ VertexOutput VS(VertexInput input)
 	output.Position = mul(input.Position, World);
 	output.Position = mul(output.Position, View);
 	output.Position = mul(output.Position, Projection);
+	
+	output.Uv = input.Uv;
 
 	return output;
 }
@@ -29,7 +33,9 @@ VertexOutput VS(VertexInput input)
 float4 Color;
 float4 PS(VertexOutput input) : SV_Target
 {
-	return Color;
+	return lerp(Color, float4(0, 0, 0, 1), input.Uv.y);
+	
+	//return Color;
 }
 
 technique11 T0

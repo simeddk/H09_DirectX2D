@@ -49,6 +49,11 @@ void Rect::CreateBuffer()
 	vertices[2].Position = Vector3(+0.5f, -0.5f, 0.f);
 	vertices[3].Position = Vector3(+0.5f, +0.5f, 0.f);
 
+	vertices[0].Uv = Vector2(0, 1);
+	vertices[1].Uv = Vector2(0, 0);
+	vertices[2].Uv = Vector2(1, 1);
+	vertices[3].Uv = Vector2(1, 0);
+
 	//Create Vertex Buffer
 	{
 		D3D11_BUFFER_DESC desc;

@@ -12,14 +12,6 @@ Background::Background(Shader* shader)
 
 	tile = new Sprite(shader, L"Tile.png");
 
-	cloud[0]->Scale(cloud[0]->GetTextureSize());
-	cloud[1]->Scale(cloud[1]->GetTextureSize());
-
-	bush[0]->Scale(bush[0]->GetTextureSize());
-	bush[1]->Scale(bush[1]->GetTextureSize());
-
-	tile->Scale(tile->GetTextureSize());
-
 	rectShader = new Shader(L"05_Rect.fx");
 	rect = new Rect(rectShader);
 	rect->Position((float)Width * 0.5f, (float)Height * 0.5f);
@@ -75,7 +67,7 @@ void Background::Render()
 
 	for (int i = 0; i < 9; i++)
 	{
-		tile->Position(i * tile->Scale().x, 60);
+		tile->Position(i * tile->GetTextureSize().x * tile->Scale().x, 60);
 		tile->Render();
 	}
 }

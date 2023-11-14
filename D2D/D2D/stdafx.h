@@ -63,6 +63,7 @@ typedef D3DXMATRIX Matrix;
 #include "Renders/Shader.h"
 #include "Renders/PerFrame.h"
 #include "Renders/Sprite.h"
+#include "Renders/Clip.h"
 
 //Global Variable
 extern UINT Width;

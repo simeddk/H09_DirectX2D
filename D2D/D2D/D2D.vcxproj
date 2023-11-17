@@ -149,6 +149,7 @@
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\MovableRect.cpp" />
     <ClCompile Include="Objects\Rect.cpp" />
+    <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
     <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\MovableRect.h" />
     <ClInclude Include="Objects\Rect.h" />
+    <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Shader.h" />

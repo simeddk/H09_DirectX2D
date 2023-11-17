@@ -26,8 +26,8 @@ Clip::Clip(EPlayType playType, float playRate)
 
 Clip::~Clip()
 {
-	for (Frame* frame : frames)
-		SafeDelete(frame);
+	//for (Frame* frame : frames)
+	//	SafeDelete(frame);
 }
 
 void Clip::Update()
@@ -114,6 +114,21 @@ void Clip::Stop()
 		}
 		break;
 	}
+}
+
+Vector2 Clip::ScaledTextureSize()
+{
+	Vector2 originTextureSize = frames[currentFrame]->Image->GetTextureSize();
+
+	float width = originTextureSize.x * scale.x;
+	float height = originTextureSize.y * scale.y;
+
+	return Vector2(width, height);
+}
+
+Sprite* Clip::GetCurrentFrameAsSprite()
+{
+	return frames[currentFrame]->Image;
 }
 
 void Clip::Position(float x, float y)

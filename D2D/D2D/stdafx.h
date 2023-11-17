@@ -45,6 +45,10 @@ using namespace std;
 #define Check(result) { assert(SUCCEEDED(result)); }
 #define CheckNull(p) { if (p == nullptr) return; }
 #define CheckNullResult(p, result) { if (p == nullptr) return result; }
+#define CheckTrue(p) { if (p == true) return; }
+#define CheckTrueResult(p, result) { if (p == true) return result; }
+#define CheckFale(p) { if (p == false) return; }
+#define CheckFaleResult(p, result) { if (p == false) return result; }
 
 //Type Defines
 typedef D3DXVECTOR2 Vector2;
@@ -64,6 +68,7 @@ typedef D3DXMATRIX Matrix;
 #include "Renders/PerFrame.h"
 #include "Renders/Sprite.h"
 #include "Renders/Clip.h"
+#include "Renders/Animation.h"
 
 //Global Variable
 extern UINT Width;

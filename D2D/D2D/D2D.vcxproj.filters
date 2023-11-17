@@ -45,6 +45,9 @@
     <ClCompile Include="Renders\Clip.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\Animation.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -88,6 +91,9 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Renders\Clip.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Animation.h">
       <Filter>Renders</Filter>
     </ClInclude>
   </ItemGroup>

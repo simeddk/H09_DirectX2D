@@ -1,21 +1,10 @@
 #include "stdafx.h"
-#include "System/Device.h"
-#include "Objects/Background.h"
-#include "Objects/Bullet.h"
+#include "Marco.h"
 
-Shader* shader = nullptr;
-Background* background = nullptr;
-Clip* clip = nullptr;
-Animation* animation = nullptr;
-
-void InitScene()
+Marco::Marco(Shader* shader, Vector2 position, Vector2 scale)
 {
-	shader = new Shader(L"04_Sprite.fx");
-	PerFrame::Get()->SetShader(shader);
-
-	background = new Background(shader);
-	
 	animation = new Animation();
+	Clip* clip = nullptr;
 
 	//Clip 0 - Idle
 	{
@@ -46,31 +35,41 @@ void InitScene()
 		animation->AddClip(clip);
 	}
 
-	animation->Position(100, 170);
-	animation->Scale(2.5f, 2.5f);
-	animation->Play(0);
+	animation->Position(position);
+	animation->Scale(scale);
+	animation->Play((UINT)EStateType::Idle);
 }
 
-void DestroyScene()
+Marco::~Marco()
 {
-	SafeDelete(shader);
-	SafeDelete(background);
 	SafeDelete(animation);
 }
 
-
-void Update()
+void Marco::Update()
 {
-	static bool bMove = false;
-	ImGui::Checkbox("Move", &bMove);
-	animation->Play(bMove ? 1 : 0);
+	Vector2 position = animation->Position();
+	bool bMove = false;
 
-	background->Update();
+	if (Key->Press('D'))
+	{
+		bMove = true;
+		position.x += speed * Time::Delta();
+	}
+	else if (Key->Press('A'))
+	{
+		bMove = true;
+		position.x -= speed * Time::Delta();
+	}
+
+	EStateType currentState = bMove ? EStateType::Run : EStateType::Idle;
+	animation->Play((UINT)currentState);
+
 	animation->Update();
+
+	ImGui::Text("%2.f, %.2f", position.x, position.y);
 }
 
-void Render()
+void Marco::Render()
 {
-	background->Render();
 	animation->Render();
 }

@@ -38,6 +38,10 @@ public:
 	void Play(UINT startFrame);
 	void Stop();
 
+	Vector2 ScaledTextureSize();
+	Sprite* GetCurrentFrameAsSprite();
+	UINT GetCurrentFrameAsIndex() { return currentFrame; }
+
 public:
 	void Position(float x, float y);
 	void Position(Vector2& vec);

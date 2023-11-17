@@ -33,6 +33,20 @@ public:
 	void Scale(Vector2 vec);
 	Vector2 Scale() { return scale; }
 
+	void Rotation(float x, float y, float z);
+	void Rotation(Vector3& vec);
+	Vector3 Rotation() { return rotation; }
+
+	void RotationDegree(float x, float y, float z);
+	void RotationDegree(Vector3& vec);
+	Vector3 RotationDegree();
+
+	Matrix& GetWorldMatrix() { return world; }
+
+	Vector3& Right();
+	Vector3& Up();
+	Vector3& Forward();
+
 private:
 	struct Vertex
 	{
@@ -54,6 +68,7 @@ private:
 
 	Vector2 position = Vector2(0, 0);
 	Vector2 scale = Vector2(1, 1);
+	Vector3 rotation = Vector3(0, 0, 0);
 
 	Matrix world;
 	ID3DX11EffectMatrixVariable* sWorld;

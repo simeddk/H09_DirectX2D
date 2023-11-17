@@ -150,13 +150,71 @@ void Sprite::Scale(Vector2 vec)
 	UpdateWorld();
 }
 
+void Sprite::Rotation(float x, float y, float z)
+{
+	Rotation(Vector3(x, y, z));
+}
+
+void Sprite::Rotation(Vector3& vec)
+{
+	rotation = vec;
+
+	UpdateWorld();
+}
+
+void Sprite::RotationDegree(float x, float y, float z)
+{
+	RotationDegree(Vector3(x, y, z));
+}
+
+void Sprite::RotationDegree(Vector3& vec)
+{
+	vec.x = Math::ToRadian(vec.x);
+	vec.y = Math::ToRadian(vec.y);
+	vec.z = Math::ToRadian(vec.z);
+
+	Rotation(vec);
+}
+
+Vector3 Sprite::RotationDegree()
+{
+	Vector3 degree;
+	degree.x = Math::ToDegree(rotation.x);
+	degree.y = Math::ToDegree(rotation.y);
+	degree.z = Math::ToDegree(rotation.z);
+
+	return degree;
+}
+
+Vector3& Sprite::Right()
+{
+	Vector3 right;
+	D3DXVec3Normalize(&right, &Vector3(world._11, world._12, world._13));
+	return right;
+}
+
+Vector3& Sprite::Up()
+{
+	Vector3 up;
+	D3DXVec3Normalize(&up, &Vector3(world._21, world._22, world._23));
+	return up;
+}
+
+Vector3& Sprite::Forward()
+{
+	Vector3 forward;
+	D3DXVec3Normalize(&forward, &Vector3(world._31, world._32, world._33));
+	return forward;
+}
+
 void Sprite::UpdateWorld()
 {
-	Matrix S, T;
+	Matrix S, R, T;
 	D3DXMatrixScaling(&S, textureSize.x * scale.x, textureSize.y * scale.y, 1.f);
+	D3DXMatrixRotationYawPitchRoll(&R, rotation.y, rotation.x, rotation.z);
 	D3DXMatrixTranslation(&T, position.x, position.y, 1.f);
 
-	world = S * T;
+	world = S * R * T;
 
 	sWorld->SetMatrix(world);
 }

@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Objects\Background.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
+    <ClCompile Include="Objects\Marco.cpp" />
     <ClCompile Include="Objects\MovableRect.cpp" />
     <ClCompile Include="Objects\Rect.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="Objects\Background.h" />
     <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Marco.h" />
     <ClInclude Include="Objects\MovableRect.h" />
     <ClInclude Include="Objects\Rect.h" />
     <ClInclude Include="Renders\Animation.h" />

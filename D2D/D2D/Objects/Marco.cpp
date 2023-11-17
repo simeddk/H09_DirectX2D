@@ -60,6 +60,7 @@ void Marco::Update()
 		bMove = true;
 		position.x -= speed * Time::Delta();
 	}
+	animation->Position(position);
 
 	EStateType currentState = bMove ? EStateType::Run : EStateType::Idle;
 	animation->Play((UINT)currentState);
@@ -67,6 +68,7 @@ void Marco::Update()
 	animation->Update();
 
 	ImGui::Text("%2.f, %.2f", position.x, position.y);
+
 }
 
 void Marco::Render()

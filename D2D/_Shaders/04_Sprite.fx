@@ -14,6 +14,12 @@ cbuffer CB_PerFrame
 //-------------------------------------------------------------------
 //States
 //-------------------------------------------------------------------
+RasterizerState CullMode_None
+{
+	CullMode = None;
+	DepthClipEnable = false;
+};
+
 SamplerState LinearSampler
 {
 	Filter = MIN_MAG_MIP_LINEAR;
@@ -81,6 +87,7 @@ technique11 T0
 		SetVertexShader(CompileShader(vs_5_0, VS()));
 		SetPixelShader(CompileShader(ps_5_0, PS()));
 
+		SetRasterizerState(CullMode_None);
 		SetBlendState(Translucent, float4(0, 0, 0, 0), 0xFF);
 	}
 
@@ -89,6 +96,7 @@ technique11 T0
 		SetVertexShader(CompileShader(vs_5_0, VS()));
 		SetPixelShader(CompileShader(ps_5_0, PS2()));
 
+		SetRasterizerState(CullMode_None);
 		SetBlendState(Translucent, float4(0, 0, 0, 0), 0xFF);
 	}
 }

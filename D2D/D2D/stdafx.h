@@ -72,6 +72,7 @@ typedef D3DXMATRIX Matrix;
 
 #include "Viewer/Camera.h"
 #include "Viewer/Freedom.h"
+#include "Viewer/Follow.h"
 
 //Global Variable
 extern UINT Width;

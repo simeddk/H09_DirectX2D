@@ -17,6 +17,9 @@ void Follow::Update()
 	Vector2 outLocation;
 	focusObject->Focus(&outLocation);
 
+	outLocation.x -= (float)Width * 0.5f;
+	outLocation.y -= (float)Height * 0.5f;
+
 	position = outLocation;
 
 	__super::Update();

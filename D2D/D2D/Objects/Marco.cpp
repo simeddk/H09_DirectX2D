@@ -80,5 +80,5 @@ void Marco::Render()
 
 void Marco::Focus(OUT Vector2* focusPosition)
 {
-	*focusPosition = animation->Position();
+	*focusPosition = animation->Position() + focusOffset;
 }

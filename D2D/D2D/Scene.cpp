@@ -4,6 +4,7 @@
 
 Shader* shader = nullptr;
 Marco* marco = nullptr;
+Marco* marco2 = nullptr;
 Sprite* sprite = nullptr;
 
 void InitScene()
@@ -12,6 +13,10 @@ void InitScene()
 	PerFrame::Get()->SetShader(shader);
 
 	marco = new Marco(shader, Vector2(200, 140), Vector2(2.5f, 2.5f));
+	PerFrame::Get()->SetFollowCamera(marco);
+	
+	marco2 = new Marco(shader, Vector2(400, 300), Vector2(1.5f, 1.5f));
+
 	sprite = new Sprite(shader, L"Background/FinalFightStage.png");
 	sprite->Position(400, 300);
 	sprite->Scale(2.5f, 2.5f);
@@ -21,24 +26,30 @@ void DestroyScene()
 {
 	SafeDelete(shader);
 	SafeDelete(marco);
+	SafeDelete(marco2);
 	SafeDelete(sprite);
 }
 
 
 void Update()
 {
-	static float cameraSpeed = 200.f;
-	ImGui::SliderFloat("Camera Speed", &cameraSpeed, 10, 10000);
-	Freedom* freedom = dynamic_cast<Freedom*>(PerFrame::Get()->GetCamera());
-	if (freedom != nullptr)
-		freedom->Speed(cameraSpeed);
+	Follow* follow = dynamic_cast<Follow*>(PerFrame::Get()->GetCamera());
+	if (follow != nullptr)
+	{
+		if (Key->Down('1'))
+			follow->SetFocusObject(marco);
+		else if (Key->Down('2'))
+			follow->SetFocusObject(marco2);
+	}
 
 	sprite->Update();
 	marco->Update();
+	marco2->Update();
 }
 
 void Render()
 {
 	sprite->Render();
 	marco->Render();
+	marco2->Render();
 }

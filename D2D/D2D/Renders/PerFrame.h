@@ -21,6 +21,7 @@ public:
 	Matrix Projection() { return desc.Projection; }
 
 	class Camera* GetCamera() { return camera; }
+	void SetFollowCamera(class IFocus* focusObject = nullptr);
 
 private:
 	struct Desc

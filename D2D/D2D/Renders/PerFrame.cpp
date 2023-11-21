@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PerFrame.h"
+#include "Viewer/IFocus.h"
 
 PerFrame* PerFrame::instance = nullptr;
 
@@ -73,4 +74,11 @@ void PerFrame::Render()
 	DeviceContext->Unmap(constantBuffer, 0);
 
 	sConstantBuffer->SetConstantBuffer(constantBuffer);
+}
+
+void PerFrame::SetFollowCamera(IFocus* focusObject)
+{
+	SafeDelete(camera);
+
+	camera = new Follow(focusObject);
 }

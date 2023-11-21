@@ -19,4 +19,5 @@ private:
 	Animation* animation = nullptr;
 	float speed = 200.f;
 
+	Vector2 focusOffset = Vector2(180, 140);
 };

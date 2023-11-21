@@ -77,3 +77,8 @@ void Marco::Render()
 {
 	animation->Render();
 }
+
+void Marco::Focus(OUT Vector2* focusPosition)
+{
+	*focusPosition = animation->Position();
+}

@@ -66,6 +66,7 @@ void Clip::Update()
 	} //if(bPlaying)
 
 	frames[currentFrame]->Image->Scale(scale);
+	frames[currentFrame]->Image->Rotation(rotation);
 	frames[currentFrame]->Image->Position(position);
 
 	frames[currentFrame]->Image->Update();
@@ -149,4 +150,39 @@ void Clip::Scale(float x, float y)
 void Clip::Scale(Vector2& vec)
 {
 	scale = vec;
+}
+
+void Clip::Rotation(float x, float y, float z)
+{
+	Rotation(Vector3(x, y, z));
+}
+
+void Clip::Rotation(Vector3& vec)
+{
+	rotation = vec;
+}
+
+void Clip::RotationDegree(float x, float y, float z)
+{
+	RotationDegree(Vector3(x, y, z));
+}
+
+void Clip::RotationDegree(Vector3& vec)
+{
+	Vector3 radian;
+	radian.x = Math::ToRadian(vec.x);
+	radian.y = Math::ToRadian(vec.y);
+	radian.z = Math::ToRadian(vec.z);
+
+	Rotation(radian);
+}
+
+Vector3 Clip::RotationDegree()
+{
+	Vector3 degree = rotation;
+	degree.x = Math::ToDegree(degree.x);
+	degree.y = Math::ToDegree(degree.y);
+	degree.z = Math::ToDegree(degree.z);
+
+	return degree;
 }

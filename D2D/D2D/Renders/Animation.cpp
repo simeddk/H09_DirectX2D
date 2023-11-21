@@ -16,6 +16,7 @@ void Animation::Update()
 	CheckTrue(currentClip < 0);
 
 	clips[currentClip]->Position(position);
+	clips[currentClip]->Rotation(rotation);
 	clips[currentClip]->Scale(scale);
 
 	clips[currentClip]->Update();
@@ -68,6 +69,40 @@ void Animation::Scale(float x, float y)
 void Animation::Scale(Vector2& vec)
 {
 	scale = vec;
+}
+
+void Animation::Rotation(float x, float y, float z)
+{
+	Rotation(Vector3(x, y, z));
+}
+
+void Animation::Rotation(Vector3& vec)
+{
+	rotation = vec;
+}
+
+void Animation::RotationDegree(float x, float y, float z)
+{
+	RotationDegree(Vector3(x, y, z));
+}
+
+void Animation::RotationDegree(Vector3& vec)
+{
+	vec.x = Math::ToRadian(vec.x);
+	vec.y = Math::ToRadian(vec.y);
+	vec.z = Math::ToRadian(vec.z);
+
+	Rotation(vec);
+}
+
+Vector3 Animation::RotationDegree()
+{
+	Vector3 degree = rotation;
+	degree.x = Math::ToDegree(degree.x);
+	degree.y = Math::ToDegree(degree.y);
+	degree.z = Math::ToDegree(degree.z);
+
+	return degree;
 }
 
 Vector2 Animation::ScaledTextureSize()

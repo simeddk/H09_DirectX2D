@@ -54,11 +54,13 @@ void Marco::Update()
 	{
 		bMove = true;
 		position.x += speed * Time::Delta();
+		animation->Rotation(0, 0, 0);
 	}
 	else if (Key->Press('A'))
 	{
 		bMove = true;
 		position.x -= speed * Time::Delta();
+		animation->Rotation(0, D3DX_PI, 0);
 	}
 	animation->Position(position);
 

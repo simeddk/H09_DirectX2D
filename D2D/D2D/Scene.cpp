@@ -45,6 +45,15 @@ void Update()
 	sprite->Update();
 	marco->Update();
 	marco2->Update();
+
+	static Vector2 test;
+	ImGui::SliderFloat2("Test", test, 1, 100);
+
+	static bool bCheck;
+	ImGui::Checkbox("Check", &bCheck);
+
+	static Color color;
+	ImGui::ColorEdit3("Color", color);
 }
 
 void Render()
@@ -53,3 +62,4 @@ void Render()
 	marco->Render();
 	marco2->Render();
 }
+

@@ -68,9 +68,6 @@ void Marco::Update()
 	animation->Play((UINT)currentState);
 
 	animation->Update();
-
-	ImGui::Text("%2.f, %.2f", position.x, position.y);
-
 }
 
 void Marco::Render()

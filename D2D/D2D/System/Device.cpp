@@ -83,6 +83,21 @@ void InitWidow(HINSTANCE hInstance, int nCmdShow)
 		assert(Hwnd != NULL);
 	}
 	
+	//Move Window
+	RECT rect = { 0, 0, (LONG)Width, (LONG)Height };
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+
+	int centerX = (GetSystemMetrics(SM_CXSCREEN) - UINT(Width)) / 2;
+	int centerY = (GetSystemMetrics(SM_CYSCREEN) - UINT(Height)) / 2;
+	MoveWindow
+	(
+		Hwnd,
+		centerX, centerY,
+		rect.right - rect.left,
+		rect.bottom - rect.top,
+		TRUE
+	);
+
 	//Show HWND
 	ShowWindow(Hwnd, nCmdShow);
 	UpdateWindow(Hwnd);
@@ -143,30 +158,10 @@ void InitDirect3D(HINSTANCE hInstance)
 	);
 	assert(SUCCEEDED(result));
 
-	//Create RTV
-	ID3D11Texture2D* backBuffer;
-	result = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
-	assert(SUCCEEDED(result));
-
-	result = Device->CreateRenderTargetView(backBuffer, NULL, &RTV);
-	assert(SUCCEEDED(result));
-	backBuffer->Release();
-
-	DeviceContext->OMSetRenderTargets(1, &RTV, NULL);
-
-	//Create Viewport
-	{
-		D3D11_VIEWPORT viewport;
-		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.Width = Width;
-		viewport.Height = Height;
-
-		DeviceContext->RSSetViewports(1, &viewport);
-	}
+	CreateBackBuffer();
 }
 
+//Todo. 2D 백버퍼 생성 -> 글자를 찍어보자...
 
 //-----------------------------------------------------------------------------
 //@@ Destroy DirectX ComInterfaces
@@ -251,10 +246,65 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg)
 	{
-	case WM_DESTROY: PostQuitMessage(0); return 0;
+		case WM_SIZE :
+		{
+			ImGui::Invalidate();
+
+			if (Device != nullptr)
+			{
+				Width = LOWORD(lParam);
+				Height = HIWORD(lParam);
+
+				DeleteBackBuffer();
+				Check(SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0));
+				CreateBackBuffer();
+			}
+
+			ImGui::Validate();
+		}
+		break;
+
+
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+		}
+		return 0;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
+//-----------------------------------------------------------------------------
+//@@ BackBuffer
+//-----------------------------------------------------------------------------
+void CreateBackBuffer()
+{
+	//Create RTV
+	ID3D11Texture2D* backBuffer;
+	HRESULT result = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
+	assert(SUCCEEDED(result));
 
+	result = Device->CreateRenderTargetView(backBuffer, NULL, &RTV);
+	assert(SUCCEEDED(result));
+	backBuffer->Release();
+
+	DeviceContext->OMSetRenderTargets(1, &RTV, NULL);
+
+	//Create Viewport
+	{
+		D3D11_VIEWPORT viewport;
+		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.Width = (FLOAT)Width;
+		viewport.Height = (FLOAT)Height;
+
+		DeviceContext->RSSetViewports(1, &viewport);
+	}
+}
+
+void DeleteBackBuffer()
+{
+	SafeRelease(RTV);
+}

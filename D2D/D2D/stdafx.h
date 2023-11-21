@@ -70,6 +70,9 @@ typedef D3DXMATRIX Matrix;
 #include "Renders/Clip.h"
 #include "Renders/Animation.h"
 
+#include "Viewer/Camera.h"
+#include "Viewer/Freedom.h"
+
 //Global Variable
 extern UINT Width;
 extern UINT Height;

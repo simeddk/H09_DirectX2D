@@ -20,6 +20,8 @@ public:
 	Matrix View() { return desc.View; }
 	Matrix Projection() { return desc.Projection; }
 
+	class Camera* GetCamera() { return camera; }
+
 private:
 	struct Desc
 	{
@@ -35,4 +37,6 @@ private:
 
 	ID3D11Buffer* constantBuffer = nullptr;
 	ID3DX11EffectConstantBuffer* sConstantBuffer;
+
+	class Camera* camera = nullptr;
 };

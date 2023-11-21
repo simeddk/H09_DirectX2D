@@ -5,12 +5,14 @@ PerFrame* PerFrame::instance = nullptr;
 
 PerFrame::PerFrame()
 {
-
+	camera = new Freedom();
 }
 
 PerFrame::~PerFrame()
 {
 	SafeRelease(constantBuffer);
+
+	SafeDelete(camera);
 }
 
 void PerFrame::Create()
@@ -52,10 +54,8 @@ void PerFrame::SetShader(Shader* shader)
 
 void PerFrame::Update()
 {
-	Vector3 eye = Vector3(0, 0, 0);
-	Vector3 at = Vector3(0, 0, 1);
-	Vector3 up = Vector3(0, 1, 0);
-	D3DXMatrixLookAtLH(&desc.View, &eye, &(eye + at), &up);
+	camera->Update();
+	memcpy(&desc.View, camera->View(), sizeof(Matrix));
 
 	Vector2 screenSize = Vector2((FLOAT)Width, (FLOAT)Height);
 	D3DXMatrixOrthoOffCenterLH(&desc.Projection, 0, screenSize.x, 0, screenSize.y, -1, 1);

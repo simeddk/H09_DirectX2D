@@ -25,8 +25,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPSTR lpCmdLin
 //-----------------------------------------------------------------------------
 //@@ Initailizing External Global Variables
 //-----------------------------------------------------------------------------
-UINT Width = 1024;
-UINT Height = 768;
+UINT Width = 800;
+UINT Height = 600;
 
 wstring Title = L"D2D";
 HWND Hwnd = nullptr;

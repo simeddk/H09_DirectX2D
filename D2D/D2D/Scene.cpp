@@ -63,3 +63,23 @@ void Render()
 	marco2->Render();
 }
 
+void PostRender()
+{
+	//Pangram
+	static Color fontColor = Color(1, 1, 1, 1);
+	ImGui::ColorEdit4("Font Color", fontColor);
+
+	RECT rect = { 0, 0, 800, 200 };
+	wstring text = L"참나무 타는 소리와 야경만큼 밤의 여유를 표현해 주는 것도 없다.";
+	DirectWirte::SetFontSize(20);
+	DirectWirte::SetFontColor(fontColor);
+	DirectWirte::RenderText(text, rect);
+
+	//FPS
+	rect.top += 25;
+	rect.bottom += 25;
+	text = L"FPS : " + to_wstring(ImGui::GetIO().Framerate);
+	DirectWirte::SetFontSize(30);
+	DirectWirte::SetFontColor(Color(1, 0, 0, 1));
+	DirectWirte::RenderText(text, rect);
+}

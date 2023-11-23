@@ -19,10 +19,14 @@ using namespace std;
 #include <D3DX11.h>
 #include <D3DX10.h>
 #include <D3DX10math.h>
+#include <d2d1_2.h>
+#include <dwrite.h>
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dwrite.lib")
 
 //External Library
 // -> FX Library
@@ -59,6 +63,7 @@ typedef D3DXMATRIX Matrix;
 //Framework
 #include "System/Keyboard.h"
 #include "System/Time.h"
+#include "System/DirectWrite.h"
 
 #include "Utilities/Path.h"
 #include "Utilities/String.h"

@@ -60,6 +60,9 @@
     <ClCompile Include="Viewer\Follow.cpp">
       <Filter>Viewer</Filter>
     </ClCompile>
+    <ClCompile Include="System\DirectWrite.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -122,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="Viewer\IFocus.h">
       <Filter>Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="System\DirectWrite.h">
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

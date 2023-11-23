@@ -146,7 +146,7 @@ void InitDirect3D(HINSTANCE hInstance)
 		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		NULL,
+		D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 		featureLevel.data(),
 		featureLevel.size(),
 		D3D11_SDK_VERSION,
@@ -161,7 +161,7 @@ void InitDirect3D(HINSTANCE hInstance)
 	CreateBackBuffer();
 }
 
-//Todo. 2D 백버퍼 생성 -> 글자를 찍어보자...
+//UnresolvedMergeConflict. 2D 백버퍼 생성 -> 글자를 찍어보자...
 
 //-----------------------------------------------------------------------------
 //@@ Destroy DirectX ComInterfaces
@@ -185,6 +185,8 @@ WPARAM Running()
 	//Create SingleTone Object
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
+
+	DirectWirte::Create();
 
 	Time::Create();
 	Time::Get()->Start();
@@ -221,6 +223,13 @@ WPARAM Running()
 			{
 				Render();
 			}
+
+			DirectWirte::GetDC()->BeginDraw();
+			{
+				PostRender();
+			}
+			DirectWirte::GetDC()->EndDraw();
+
 			ImGui::Render();
 			SwapChain->Present(0, 0);
 		}
@@ -228,10 +237,12 @@ WPARAM Running()
 
 	//EndPlay
 	DestroyScene();
+	
+	SafeDelete(Key);
 	PerFrame::Delete();
 	Time::Delete();
 	ImGui::Delete();
-	SafeDelete(Key);
+	DirectWirte::Delete();
 
 	return msg.wParam;
 }
@@ -256,7 +267,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				Height = HIWORD(lParam);
 
 				DeleteBackBuffer();
+				DirectWirte::DeleteBackBuffer();
+
 				Check(SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0));
+				
+				DirectWirte::CreateBackBuffer();
 				CreateBackBuffer();
 			}
 

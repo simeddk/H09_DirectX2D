@@ -34,7 +34,7 @@ Background::~Background()
 
 void Background::Update()
 {
-	rect->Update(PerFrame::Get()->View(), PerFrame::Get()->Projection());
+	//rect->Update(Context::Get()->View(), Context::Get()->Projection());
 }
 
 void Background::Render()

@@ -191,7 +191,7 @@ WPARAM Running()
 	Time::Create();
 	Time::Get()->Start();
 
-	PerFrame::Create();
+	Context::Create();
 
 	Key = new Keyboard();
 
@@ -212,12 +212,10 @@ WPARAM Running()
 			Time::Get()->Update();
 			ImGui::Update();
 
-			PerFrame::Get()->Update();
+			Context::Get()->Update();
 			Update();
 
 			//Render
-			PerFrame::Get()->Render();
-
 			D3DXCOLOR clearColor = D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.f);
 			DeviceContext->ClearRenderTargetView(RTV, clearColor);
 			{
@@ -239,7 +237,7 @@ WPARAM Running()
 	DestroyScene();
 	
 	SafeDelete(Key);
-	PerFrame::Delete();
+	Context::Delete();
 	Time::Delete();
 	ImGui::Delete();
 	DirectWirte::Delete();

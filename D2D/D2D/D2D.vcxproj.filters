@@ -27,7 +27,7 @@
     <ClCompile Include="System\Device.cpp">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\PerFrame.cpp">
+    <ClCompile Include="Renders\Context.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
     <ClCompile Include="Renders\Sprite.cpp">
@@ -63,6 +63,9 @@
     <ClCompile Include="System\DirectWrite.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\PerFrame.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -90,7 +93,7 @@
     <ClInclude Include="System\Device.h">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\PerFrame.h">
+    <ClInclude Include="Renders\Context.h">
       <Filter>Renders</Filter>
     </ClInclude>
     <ClInclude Include="Renders\Sprite.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="System\DirectWrite.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\PerFrame.h">
+      <Filter>Renders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

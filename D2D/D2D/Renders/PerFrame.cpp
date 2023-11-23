@@ -1,39 +1,7 @@
 #include "stdafx.h"
 #include "PerFrame.h"
-#include "Viewer/IFocus.h"
 
-PerFrame* PerFrame::instance = nullptr;
-
-PerFrame::PerFrame()
-{
-	camera = new Freedom();
-}
-
-PerFrame::~PerFrame()
-{
-	SafeRelease(constantBuffer);
-
-	SafeDelete(camera);
-}
-
-void PerFrame::Create()
-{
-	assert(instance == nullptr);
-	instance = new PerFrame();
-}
-
-void PerFrame::Delete()
-{
-	SafeDelete(instance);
-}
-
-PerFrame* PerFrame::Get()
-{
-	assert(instance != nullptr);
-	return instance;
-}
-
-void PerFrame::SetShader(Shader* shader)
+PerFrame::PerFrame(Shader* shader)
 {
 	this->shader = shader;
 
@@ -53,13 +21,15 @@ void PerFrame::SetShader(Shader* shader)
 	sConstantBuffer = this->shader->AsConstantBuffer("CB_PerFrame");
 }
 
+PerFrame::~PerFrame()
+{
+	SafeRelease(constantBuffer);
+}
+
 void PerFrame::Update()
 {
-	camera->Update();
-	memcpy(&desc.View, camera->View(), sizeof(Matrix));
-
-	Vector2 screenSize = Vector2((FLOAT)Width, (FLOAT)Height);
-	D3DXMatrixOrthoOffCenterLH(&desc.Projection, 0, screenSize.x, 0, screenSize.y, -1, 1);
+	desc.View = Context::Get()->View();
+	desc.Projection = Context::Get()->Projection();
 }
 
 void PerFrame::Render()
@@ -74,11 +44,4 @@ void PerFrame::Render()
 	DeviceContext->Unmap(constantBuffer, 0);
 
 	sConstantBuffer->SetConstantBuffer(constantBuffer);
-}
-
-void PerFrame::SetFollowCamera(IFocus* focusObject)
-{
-	SafeDelete(camera);
-
-	camera = new Follow(focusObject);
 }

@@ -20,4 +20,6 @@ private:
 	float speed = 200.f;
 
 	Vector2 focusOffset = Vector2(180, 140);
+
+	PerFrame* perFrame = nullptr;
 };

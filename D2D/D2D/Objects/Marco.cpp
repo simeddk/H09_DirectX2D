@@ -7,6 +7,7 @@ Marco::Marco(Shader* shader, Vector2 position, Vector2 scale)
 	Clip* clip = nullptr;
 
 	perFrame = new PerFrame(shader);
+	collider = new Collider();
 
 	//Clip 0 - Idle
 	{
@@ -46,6 +47,7 @@ Marco::~Marco()
 {
 	SafeDelete(animation);
 	SafeDelete(perFrame);
+	SafeDelete(collider);
 }
 
 void Marco::Update()
@@ -63,7 +65,7 @@ void Marco::Update()
 	{
 		bMove = true;
 		position.x -= speed * Time::Delta();
-		animation->Rotation(0, D3DX_PI, 0);
+		animation->Rotation(0, Math::PI, 0);
 	}
 	animation->Position(position);
 
@@ -71,17 +73,33 @@ void Marco::Update()
 	animation->Play((UINT)currentState);
 
 	perFrame->Update();
+	collider->Update(GetWorld());
 	animation->Update();
 }
 
 void Marco::Render()
 {
+	//Todo.
+	Matrix m = animation->GetCurrentFrame()->GetWorldMatrix();
+
+	ImGui::Text("%f, %f, %f, %f", m._11, m._12, m._13, m._14);
+	ImGui::Text("%f, %f, %f, %f", m._21, m._22, m._23, m._24);
+	ImGui::Text("%f, %f, %f, %f", m._31, m._32, m._33, m._34);
+	ImGui::Text("%f, %f, %f, %f", m._41, m._42, m._43, m._44);
+	ImGui::Text("");
+	ImGui::Text("");
+
 	perFrame->Render();
 	animation->Render();
-
+	collider->Render();
 }
 
 void Marco::Focus(OUT Vector2* focusPosition)
 {
 	*focusPosition = animation->Position() + focusOffset;
+}
+
+Matrix& Marco::GetWorld()
+{
+	return animation->GetCurrentFrame()->GetWorldMatrix();
 }

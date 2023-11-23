@@ -161,8 +161,6 @@ void InitDirect3D(HINSTANCE hInstance)
 	CreateBackBuffer();
 }
 
-//UnresolvedMergeConflict. 2D 백버퍼 생성 -> 글자를 찍어보자...
-
 //-----------------------------------------------------------------------------
 //@@ Destroy DirectX ComInterfaces
 //-----------------------------------------------------------------------------

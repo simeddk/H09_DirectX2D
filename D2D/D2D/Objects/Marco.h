@@ -15,6 +15,8 @@ public:
 
 	virtual void Focus(OUT Vector2* focusPosition) override;
 
+	Matrix& GetWorld();
+
 private:
 	Animation* animation = nullptr;
 	float speed = 200.f;
@@ -22,4 +24,5 @@ private:
 	Vector2 focusOffset = Vector2(180, 140);
 
 	PerFrame* perFrame = nullptr;
+	Collider* collider = nullptr;
 };

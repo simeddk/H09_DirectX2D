@@ -38,7 +38,7 @@ void Context::Update()
 	camera->Update();
 
 	Vector2 screenSize = Vector2((FLOAT)Width, (FLOAT)Height);
-	D3DXMatrixOrthoOffCenterLH(&projection, 0, screenSize.x, 0, screenSize.y, -1, 1);
+	D3DXMatrixOrthoOffCenterLH(&projection, 0, (float)Width, 0, (float)Height, -1, 1);
 }
 
 const Matrix& Context::View()

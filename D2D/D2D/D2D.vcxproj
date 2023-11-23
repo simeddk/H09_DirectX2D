@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collider\Collider.cpp" />
     <ClCompile Include="Objects\Background.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\Marco.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Viewer\Freedom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collider\Collider.h" />
     <ClInclude Include="Objects\Background.h" />
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\Marco.h" />

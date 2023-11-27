@@ -58,6 +58,4 @@ void Collider::Render()
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	shader->Draw(0, 0, 5);
-
-	//UnresolvedMergeConflict. float4(X), matrix(O)
 }

@@ -36,6 +36,13 @@ void DestroyScene()
 
 void Update()
 {
+	static bool bHitted = false;
+	ImGui::Checkbox("Hitted", &bHitted);
+	if (bHitted == true)
+		marco->GetCollider()->SetHit();
+	else
+		marco->GetCollider()->SetMiss();
+
 	sprite->Update();
 	marco->Update();
 	marco2->Update();

@@ -15,6 +15,7 @@ public:
 
 	virtual void Focus(OUT Vector2* focusPosition) override;
 
+	Collider* GetCollider() { return collider; }
 	Matrix& GetWorld();
 
 private:

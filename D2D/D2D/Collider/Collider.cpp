@@ -59,3 +59,40 @@ void Collider::Render()
 
 	shader->Draw(0, 0, 5);
 }
+
+bool Collider::Aabb(Matrix world, Vector2 position)
+{
+	Vector2 positionA = Vector2(world._41, world._42);
+	Vector2 positionB = position;
+	
+	Vector2 distance;
+	distance.x = fabsf(positionA.x - positionB.x);
+	distance.y = fabsf(positionA.y - positionB.y);
+
+	Vector2 halfSize;
+	halfSize = Vector2(fabsf(world._11), fabsf(world._22)) * 0.5f;
+
+	if (distance.x > halfSize.x) return false;
+	if (distance.y > halfSize.y) return false;
+
+	return true;
+}
+
+bool Collider::Aabb(Matrix world1, Matrix world2)
+{
+	Vector2 position1 = Vector2(world1._41, world1._42);
+	Vector2 position2 = Vector2(world2._41, world2._42);;
+
+	Vector2 distance;
+	distance.x = fabsf(position1.x - position2.x);
+	distance.y = fabsf(position1.y - position2.y);
+
+	Vector2 halfSize1, halfSize2;
+	halfSize1 = Vector2(fabsf(world1._11), fabsf(world1._22)) * 0.5f;
+	halfSize2 = Vector2(fabsf(world2._11), fabsf(world2._22)) * 0.5f;
+
+	if (distance.x > halfSize1.x + halfSize2.x) return false;
+	if (distance.y > halfSize1.y + halfSize2.y) return false;
+
+	return true;
+}

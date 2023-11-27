@@ -67,6 +67,17 @@ void Marco::Update()
 		position.x -= speed * Time::Delta();
 		animation->Rotation(0, Math::PI, 0);
 	}
+	
+	if (Key->Press('W'))
+	{
+		bMove = true;
+		position.y += speed * Time::Delta();
+	}
+	else if (Key->Press('S'))
+	{
+		bMove = true;
+		position.y -= speed * Time::Delta();
+	}
 	animation->Position(position);
 
 	EStateType currentState = bMove ? EStateType::Run : EStateType::Idle;

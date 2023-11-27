@@ -13,6 +13,10 @@ public:
 	void SetMiss() { bHitted = false; }
 	bool IsHitted() { return bHitted; }
 
+public:
+	static bool Aabb(Matrix world, Vector2 position);
+	static bool Aabb(Matrix world1, Matrix world2);
+
 private:
 	struct Vertex
 	{

@@ -147,7 +147,9 @@
   <ItemGroup>
     <ClCompile Include="Collider\Collider.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
+    <ClCompile Include="Objects\Fire.cpp" />
     <ClCompile Include="Objects\Marco.cpp" />
+    <ClCompile Include="Objects\Marker.cpp" />
     <ClCompile Include="Objects\MovableRect.cpp" />
     <ClCompile Include="Objects\Rect.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
@@ -157,6 +159,7 @@
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Scene\AabbDemo.cpp" />
     <ClCompile Include="Scene\Scene01Demo.cpp" />
     <ClCompile Include="Scene\Scene02Demo.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -176,7 +179,9 @@
   <ItemGroup>
     <ClInclude Include="Collider\Collider.h" />
     <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Fire.h" />
     <ClInclude Include="Objects\Marco.h" />
+    <ClInclude Include="Objects\Marker.h" />
     <ClInclude Include="Objects\MovableRect.h" />
     <ClInclude Include="Objects\Rect.h" />
     <ClInclude Include="Renders\Animation.h" />
@@ -185,6 +190,7 @@
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Renders\Sprite.h" />
+    <ClInclude Include="Scene\AabbDemo.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene01Demo.h" />
     <ClInclude Include="Scene\Scene02Demo.h" />

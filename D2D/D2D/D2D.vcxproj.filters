@@ -66,11 +66,20 @@
     <ClCompile Include="Collider\Collider.cpp">
       <Filter>Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Marker.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
     <ClCompile Include="Scene\Scene01Demo.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Scenes\MultiScene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene02Demo.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Scenes\MultiScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\AabbDemo.cpp">
+      <Filter>Scenes\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Fire.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,11 +153,20 @@
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Marker.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
     <ClInclude Include="Scene\Scene01Demo.h">
-      <Filter>Scenes</Filter>
+      <Filter>Scenes\MultiScene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene02Demo.h">
-      <Filter>Scenes</Filter>
+      <Filter>Scenes\MultiScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\AabbDemo.h">
+      <Filter>Scenes\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Fire.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +190,12 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{262ab42a-a69d-49fa-b187-cfe0057677fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\MultiScene">
+      <UniqueIdentifier>{96274dd1-df46-4880-bfcc-41117158b560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Collision">
+      <UniqueIdentifier>{0a5e723e-6d63-40ca-a33b-3946b9e43af8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

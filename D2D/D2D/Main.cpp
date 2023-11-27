@@ -4,14 +4,13 @@
 #include "Scene/Scene.h"
 #include "Scene/Scene01Demo.h"
 #include "Scene/Scene02Demo.h"
+#include "Scene/AabbDemo.h"
 
 vector<Scene*> scenes;
-UINT sceneIndex = 0;
 
 void InitScene()
 {
-	scenes.push_back(new Scene01Demo());
-	scenes.push_back(new Scene02Demo());
+	scenes.push_back(new AabbDemo());
 }
 
 void DestroyScene()
@@ -23,24 +22,14 @@ void DestroyScene()
 
 void Update()
 {
-	const char* sceneList[] = 
-	{
-		typeid((Scene01Demo*)scenes[0]).name(),
-		typeid((Scene02Demo*)scenes[1]).name()
-	};
-	ImGui::Combo("Scene", (int*)&sceneIndex, sceneList, 2);
-	scenes[sceneIndex]->Update();
-
-	//for (Scene* scene : scenes)
-	//	scene->Update();
+	for (Scene* scene : scenes)
+		scene->Update();
 }
 
 void Render()
 {
-	//for (Scene* scene : scenes)
-	//	scene->Render();
-
-	scenes[sceneIndex]->Render();
+	for (Scene* scene : scenes)
+		scene->Render();
 }
 
 void PostRender()

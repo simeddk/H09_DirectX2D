@@ -47,7 +47,7 @@ void Animation::Play(UINT clipIndex)
 
 void Animation::Stop()
 {
-	CheckFale(currentClip > -1);
+	CheckFalse(currentClip > -1);
 	clips[currentClip]->Stop();
 }
 

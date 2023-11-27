@@ -8,7 +8,7 @@ public:
 	MovableRect(Shader* shader);
 	MovableRect(Shader* shader, Vector2 position, Vector2 scale, D3DXCOLOR color = D3DXCOLOR(1, 1, 1, 1));
 
-	virtual void Update(Matrix& V, Matrix& P) override;
+	virtual void Update() override;
 
 	void MoveRight();
 	void MoveLeft();

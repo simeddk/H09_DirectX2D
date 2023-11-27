@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="System\Keyboard.cpp">
       <Filter>System</Filter>
@@ -32,9 +32,6 @@
     </ClCompile>
     <ClCompile Include="Renders\Sprite.cpp">
       <Filter>Renders</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Background.cpp">
-      <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Bullet.cpp">
       <Filter>Objects</Filter>
@@ -69,6 +66,12 @@
     <ClCompile Include="Collider\Collider.cpp">
       <Filter>Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Scene01Demo.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene02Demo.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -101,9 +104,6 @@
     </ClInclude>
     <ClInclude Include="Renders\Sprite.h">
       <Filter>Renders</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Background.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Bullet.h">
       <Filter>Objects</Filter>
@@ -141,6 +141,15 @@
     <ClInclude Include="Collider\Collider.h">
       <Filter>Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene01Demo.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene02Demo.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="System">
@@ -160,6 +169,9 @@
     </Filter>
     <Filter Include="Collider">
       <UniqueIdentifier>{be841d6d-0ac1-4c98-905f-453238839579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{262ab42a-a69d-49fa-b187-cfe0057677fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

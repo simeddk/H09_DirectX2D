@@ -23,18 +23,13 @@ Rect::Rect(Shader* shader, Vector2 position, Vector2 scale, D3DXCOLOR color)
 
 void Rect::Initialize(Shader* shader)
 {
+	perFrame = new PerFrame(shader);
+
 	CreateBuffer();
 
 	D3DXMatrixIdentity(&world);
-	D3DXMatrixIdentity(&view);
-	D3DXMatrixIdentity(&projection);
-
-	
 
 	sWorld = shader->AsMatrix("World");
-	sView = shader->AsMatrix("View");
-	sProjection = shader->AsMatrix("Projection");
-
 	sColor = shader->AsVector("Color");
 }
 
@@ -94,14 +89,15 @@ Rect::~Rect()
 	SafeRelease(indexBuffer);
 }
 
-void Rect::Update(Matrix& V, Matrix& P)
+void Rect::Update()
 {
-	view = V;
-	projection = P;
+	perFrame->Update();
 }
 
 void Rect::Render()
 {
+	perFrame->Render();
+
 	ApplyTo();
 
 	UINT stride = sizeof(Vertex);
@@ -122,9 +118,6 @@ void Rect::ApplyTo()
 	world = S * T;
 
 	sWorld->SetMatrix(world);
-	sView->SetMatrix(view);
-	sProjection->SetMatrix(projection);
-
 	sColor->SetFloatVector(color);
 }
 

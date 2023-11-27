@@ -11,9 +11,9 @@ MovableRect::MovableRect(Shader* shader, Vector2 position, Vector2 scale, D3DXCO
 {
 }
 
-void MovableRect::Update(Matrix& V, Matrix& P)
+void MovableRect::Update()
 {
-	__super::Update(V, P);
+	__super::Update();
 
 	Vector2 position = Position();
 

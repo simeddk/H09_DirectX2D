@@ -57,3 +57,10 @@ void Context::SetFollowCamera(IFocus* focusObject)
 
 	camera = new Follow(focusObject);
 }
+
+void Context::SetFreedomCamera()
+{
+	SafeDelete(camera);
+
+	camera = new Freedom();
+}

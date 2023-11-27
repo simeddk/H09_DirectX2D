@@ -146,7 +146,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Collider\Collider.cpp" />
-    <ClCompile Include="Objects\Background.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\Marco.cpp" />
     <ClCompile Include="Objects\MovableRect.cpp" />
@@ -157,7 +156,9 @@
     <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Sprite.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Scene\Scene01Demo.cpp" />
+    <ClCompile Include="Scene\Scene02Demo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -174,7 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collider\Collider.h" />
-    <ClInclude Include="Objects\Background.h" />
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\Marco.h" />
     <ClInclude Include="Objects\MovableRect.h" />
@@ -185,6 +185,9 @@
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Renders\Sprite.h" />
+    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\Scene01Demo.h" />
+    <ClInclude Include="Scene\Scene02Demo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System\Device.h" />
     <ClInclude Include="System\DirectWrite.h" />

@@ -44,6 +44,7 @@ void Fire::Update()
 	clip->Update();
 	collider->Update(GetWorld());
 
+	CheckFalse(bGizmo);
 	Vector3 r;
 	Vector2 s, t;
 	gizmo->Set(clip->GetCurrentFrameAsSprite(), &s, &r, &t, 1);
@@ -71,4 +72,9 @@ void Fire::Play()
 void Fire::Stop()
 {
 	clip->Stop();
+}
+
+Sprite* Fire::GetSprite()
+{
+	return clip->GetCurrentFrameAsSprite();
 }

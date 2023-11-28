@@ -8,6 +8,7 @@ Marco::Marco(Shader* shader, Vector2 position, Vector2 scale)
 
 	perFrame = new PerFrame(shader);
 	collider = new Collider();
+	gizmo = new Gizmo();
 
 	//Clip 0 - Idle
 	{
@@ -48,6 +49,7 @@ Marco::~Marco()
 	SafeDelete(animation);
 	SafeDelete(perFrame);
 	SafeDelete(collider);
+	SafeDelete(gizmo);
 }
 
 void Marco::Update()
@@ -93,6 +95,15 @@ void Marco::Render()
 	perFrame->Render();
 	animation->Render();
 	collider->Render();
+
+	CheckFalse(bGizmo);
+	Vector3 r;
+	Vector2 s, t;
+	gizmo->Set(animation->GetCurrentFrame(), &s, &r, &t);
+
+	animation->Scale(s);
+	animation->Rotation(r);
+	animation->Position(t);
 }
 
 void Marco::Focus(OUT Vector2* focusPosition)

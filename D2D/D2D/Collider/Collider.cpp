@@ -96,3 +96,54 @@ bool Collider::Aabb(Matrix world1, Matrix world2)
 
 	return true;
 }
+
+bool Collider::Obb(Sprite* a, Sprite* b)
+{
+	ObbDesc A, B;
+	Vector2 halfSize;
+
+	halfSize = Vector2(a->GetTextureSize().x * a->Scale().x, a->GetTextureSize().y * a->Scale().y) * 0.5f;
+	CreateObb(&A, halfSize, a->World());
+
+	halfSize = Vector2(b->GetTextureSize().x * b->Scale().x, b->GetTextureSize().y * b->Scale().y) * 0.5f;
+	CreateObb(&B, halfSize, b->World());
+
+	Vector2 distance = a->Position() - b->Position();
+
+	//A.Right
+	float lengthA = D3DXVec2Length(&A.RightLength);
+	float lengthB = fabsf(D3DXVec2Dot(&A.Right, &B.RightLength)) + fabsf(D3DXVec2Dot(&A.Right, &B.UpLength));
+	float length = fabsf(D3DXVec2Dot(&A.Right, &distance));
+	if (length > lengthA + lengthB) return false;
+
+	//A.Up
+	lengthA = D3DXVec2Length(&A.UpLength);
+	lengthB = fabsf(D3DXVec2Dot(&A.Up, &B.RightLength)) + fabsf(D3DXVec2Dot(&A.Up, &B.UpLength));
+	length = fabsf(D3DXVec2Dot(&A.Up, &distance));
+	if (length > lengthA + lengthB) return false;
+
+	//B.Right
+	lengthA = D3DXVec2Length(&B.RightLength);
+	lengthB = fabsf(D3DXVec2Dot(&B.Right, &A.RightLength)) + fabsf(D3DXVec2Dot(&B.Right, &A.UpLength));
+	length = fabsf(D3DXVec2Dot(&B.Right, &distance));
+	if (length > lengthA + lengthB) return false;
+
+	//B.Up
+	lengthA = D3DXVec2Length(&B.UpLength);
+	lengthB = fabsf(D3DXVec2Dot(&B.Up, &A.RightLength)) + fabsf(D3DXVec2Dot(&B.Up, &A.UpLength));
+	length = fabsf(D3DXVec2Dot(&B.Up, &distance));
+	if (length > lengthA + lengthB) return false;
+
+	return true;
+}
+
+void Collider::CreateObb(ObbDesc* out, Vector2& half, Matrix& transform)
+{
+	D3DXVec2Normalize(&out->Right, &Vector2(transform._11, transform._12));
+	D3DXVec2Normalize(&out->Up, &Vector2(transform._21, transform._22));
+
+	out->HalfSize = half;
+
+	out->RightLength = out->Right * out->HalfSize.x;
+	out->UpLength = out->Up * out->HalfSize.y;
+}

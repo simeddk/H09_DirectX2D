@@ -87,6 +87,9 @@
     <ClCompile Include="System\Gizmo.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\ObbDemo.cpp">
+      <Filter>Scenes\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="System\Gizmo.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ObbDemo.h">
+      <Filter>Scenes\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

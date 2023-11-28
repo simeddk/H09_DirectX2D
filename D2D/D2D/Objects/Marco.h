@@ -28,6 +28,9 @@ public:
 	void Rotation(Vector3 vec);
 	Vector3 Rotation();
 
+	void EnableGizmo() { bGizmo = true; }
+	void DisableGizmo() { bGizmo = false; }
+
 private:
 	Animation* animation = nullptr;
 	float speed = 200.f;
@@ -36,4 +39,7 @@ private:
 
 	PerFrame* perFrame = nullptr;
 	Collider* collider = nullptr;
+	Gizmo* gizmo = nullptr;
+
+	bool bGizmo = false;
 };

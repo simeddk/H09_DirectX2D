@@ -14,6 +14,8 @@ AabbDemo::AabbDemo()
 
 	D3DXMatrixIdentity(&volumeMatrix);
 	volumeCollider = new Collider();
+
+	gizmo = new Gizmo();
 }
 
 AabbDemo::~AabbDemo()
@@ -23,6 +25,7 @@ AabbDemo::~AabbDemo()
 	SafeDelete(marker);
 	SafeDelete(fire);
 	SafeDelete(volumeCollider);
+	SafeDelete(gizmo);
 }
 
 void AabbDemo::Update()
@@ -31,8 +34,8 @@ void AabbDemo::Update()
 	ImGui::LabelText("Matrix - Vector", "%s", bAabb ? "Yes Overlapped" : "No Overlapped");
 	bAabb ? marco->GetCollider()->SetHit() : marco->GetCollider()->SetMiss();
 
-	ImGui::SliderFloat2("Fire Position", fire->Position(), -400, 400);
-	ImGui::SliderFloat2("Fire Scale", fire->Scale(), 1.5f, 10.f);
+	//ImGui::SliderFloat2("Fire Position", fire->Position(), -400, 400);
+	//ImGui::SliderFloat2("Fire Scale", fire->Scale(), 1.5f, 10.f);
 	bool bAabb2 = Collider::Aabb(marco->GetWorld(), fire->GetWorld());
 	ImGui::LabelText("Matrix - Matrix", "%s", bAabb2 ? "Yes Overlapped" : "No Overlapped");
 	bAabb2 ? fire->GetCollider()->SetHit() : fire->GetCollider()->SetMiss();
@@ -52,6 +55,13 @@ void AabbDemo::Update()
 	bool bAabb3 = Collider::Aabb(marco->GetWorld(), volumeMatrix);
 	bAabb3 ? fire->Stop() : fire->Play();
 	bAabb3 ? volumeCollider->SetHit() : volumeCollider->SetMiss();
+
+	Vector3 r;
+	Vector2 s, t;
+	gizmo->Set(marco->GetSprite(), &s, &r, &t);
+	marco->Position(t);
+	marco->Scale(s);
+	marco->Rotation(r);
 }
 
 void AabbDemo::Render()

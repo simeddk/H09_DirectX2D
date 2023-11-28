@@ -38,9 +38,11 @@ using namespace std;
 #pragma comment(lib, "d3dcompiler.lib")
 
 // -> ImGui
-#include <imgui.h>
-#include <imguiDx11.h>
-#pragma comment(lib, "imgui.lib")
+#include <ImGui/imgui.h>
+#include <ImGui/imgui_impl_dx11.h>
+#include <ImGui/imgui_impl_win32.h>
+#include <ImGui/ImGuizmo.h>
+#pragma comment(lib, "ImGui/ImGUI.lib")
 
 //Macros
 #define SafeDelete(p) { if(p) { delete (p); (p) = nullptr; } }
@@ -64,6 +66,8 @@ typedef D3DXMATRIX Matrix;
 #include "System/Keyboard.h"
 #include "System/Time.h"
 #include "System/DirectWrite.h"
+#include "System/Gui.h"
+#include "System/Gizmo.h"
 
 #include "Utilities/Path.h"
 #include "Utilities/String.h"

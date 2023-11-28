@@ -84,8 +84,8 @@ void Marco::Update()
 	animation->Play((UINT)currentState);
 
 	perFrame->Update();
-	collider->Update(GetWorld());
 	animation->Update();
+	collider->Update(GetWorld());
 }
 
 void Marco::Render()
@@ -100,7 +100,42 @@ void Marco::Focus(OUT Vector2* focusPosition)
 	*focusPosition = animation->Position() + focusOffset;
 }
 
+Sprite* Marco::GetSprite()
+{
+	return animation->GetCurrentFrame();
+}
+
 Matrix& Marco::GetWorld()
 {
 	return animation->GetCurrentFrame()->GetWorldMatrix();
+}
+
+void Marco::Position(Vector2 vec)
+{
+	animation->Position(vec);
+}
+
+Vector2 Marco::Position()
+{
+	return animation->Position();
+}
+
+void Marco::Scale(Vector2 vec)
+{
+	animation->Scale(vec);
+}
+
+Vector2 Marco::Scale()
+{
+	return animation->Scale();
+}
+
+void Marco::Rotation(Vector3 vec)
+{
+	animation->Rotation(vec);
+}
+
+Vector3 Marco::Rotation()
+{
+	return animation->Rotation();
 }

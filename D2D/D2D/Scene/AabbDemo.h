@@ -22,4 +22,6 @@ private:
 
 	Matrix volumeMatrix;
 	Collider* volumeCollider = nullptr;
+
+	Gizmo* gizmo = nullptr;
 };

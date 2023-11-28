@@ -81,6 +81,12 @@
     <ClCompile Include="Objects\Fire.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="System\Gui.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Gizmo.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -167,6 +173,12 @@
     </ClInclude>
     <ClInclude Include="Objects\Fire.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Gui.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Gizmo.h">
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

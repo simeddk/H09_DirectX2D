@@ -181,9 +181,7 @@ WPARAM Running()
 	ZeroMemory(&msg, sizeof(MSG));
 
 	//Create SingleTone Object
-	ImGui::Create(Hwnd, Device, DeviceContext);
-	ImGui::StyleColorsDark();
-
+	Gui::Create();
 	DirectWirte::Create();
 
 	Time::Create();
@@ -208,7 +206,7 @@ WPARAM Running()
 		{
 			//Update
 			Time::Get()->Update();
-			ImGui::Update();
+			Gui::Get()->Update();
 
 			Context::Get()->Update();
 			Update();
@@ -226,7 +224,7 @@ WPARAM Running()
 			}
 			DirectWirte::GetDC()->EndDraw();
 
-			ImGui::Render();
+			Gui::Get()->Render();
 			SwapChain->Present(0, 0);
 		}
 	}
@@ -237,7 +235,7 @@ WPARAM Running()
 	SafeDelete(Key);
 	Context::Delete();
 	Time::Delete();
-	ImGui::Delete();
+	Gui::Delete();
 	DirectWirte::Delete();
 
 	return msg.wParam;
@@ -248,15 +246,13 @@ WPARAM Running()
 //-----------------------------------------------------------------------------
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (ImGui::WndProc(Hwnd, msg, wParam, lParam))
+	if (Gui::Get()->MsgProc(Hwnd, msg, wParam, lParam))
 		return true;
 
 	switch (msg)
 	{
 		case WM_SIZE :
 		{
-			ImGui::Invalidate();
-
 			if (Device != nullptr)
 			{
 				Width = LOWORD(lParam);
@@ -270,8 +266,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				DirectWirte::CreateBackBuffer();
 				CreateBackBuffer();
 			}
-
-			ImGui::Validate();
 		}
 		break;
 

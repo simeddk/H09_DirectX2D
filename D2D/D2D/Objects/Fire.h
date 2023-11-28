@@ -25,4 +25,5 @@ private:
 	Vector2 scale;
 
 	Collider* collider = nullptr;
+	Gizmo* gizmo = nullptr;
 };

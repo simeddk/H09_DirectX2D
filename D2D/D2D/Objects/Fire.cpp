@@ -26,21 +26,30 @@ Fire::Fire(Shader* shader, Vector2 position, Vector2 scale)
 	clip->Play();
 
 	collider = new Collider();
+	gizmo = new Gizmo();
 }
 
 Fire::~Fire()
 {
-	SafeDelete(collider);
 	SafeDelete(clip);
+	SafeDelete(collider);
+	SafeDelete(gizmo);
 }
 
 void Fire::Update()
 {
-	clip->Position(position);
-	clip->Scale(scale);
+	/*clip->Position(position);
+	clip->Scale(scale);*/
 
 	clip->Update();
 	collider->Update(GetWorld());
+
+	Vector3 r;
+	Vector2 s, t;
+	gizmo->Set(clip->GetCurrentFrameAsSprite(), &s, &r, &t, 1);
+	clip->Scale(s);
+	clip->Rotation(r);
+	clip->Position(t);
 }
 
 void Fire::Render()

@@ -38,6 +38,14 @@ void ObbDemo::Update()
 	bObb ? marco->GetCollider()->SetHit() : marco->GetCollider()->SetMiss();
 	bObb ? fire->GetCollider()->SetHit() : fire->GetCollider()->SetMiss();
 
+	/*if (bObb)
+	{
+		wstring str1 = to_wstring(marco->Position().x) + to_wstring(marco->Position().y);
+		wstring str2 = to_wstring(fire->Position().x) + to_wstring(fire->Position().y);
+		wstring message = str1 + L"\n" + str2;
+		MessageBox(Hwnd, message.c_str(), L"OBB", MB_OK);
+	}*/
+
 	marco->Update();
 	fire->Update();
 }

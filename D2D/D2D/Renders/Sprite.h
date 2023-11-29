@@ -19,6 +19,8 @@ public:
 	void Update();
 	void Render();
 
+	bool IsUpdated() { return bUpdated; }
+
 	void Pass(UINT pass) { this->pass = pass; }
 	Shader* GetShader() { return shader; }
 	Vector2 GetTextureSize() { return textureSize; }
@@ -72,6 +74,8 @@ private:
 
 	Matrix world;
 	ID3DX11EffectMatrixVariable* sWorld;
+
+	bool bUpdated = false;
 };
 
 //-------------------------------------------------------------------------------

@@ -99,6 +99,9 @@ bool Collider::Aabb(Matrix world1, Matrix world2)
 
 bool Collider::Obb(Sprite* a, Sprite* b)
 {
+	if (a->IsUpdated() == false || b->IsUpdated() == false)
+		return false;
+
 	ObbDesc A, B;
 	Vector2 halfSize;
 
@@ -112,29 +115,34 @@ bool Collider::Obb(Sprite* a, Sprite* b)
 
 	//A.Right
 	float lengthA = D3DXVec2Length(&A.RightLength);
-	float lengthB = fabsf(D3DXVec2Dot(&A.Right, &B.RightLength)) + fabsf(D3DXVec2Dot(&A.Right, &B.UpLength));
+	float lengthB = SeparateAxis(A.Right, B.RightLength, B.UpLength);
 	float length = fabsf(D3DXVec2Dot(&A.Right, &distance));
 	if (length > lengthA + lengthB) return false;
 
 	//A.Up
 	lengthA = D3DXVec2Length(&A.UpLength);
-	lengthB = fabsf(D3DXVec2Dot(&A.Up, &B.RightLength)) + fabsf(D3DXVec2Dot(&A.Up, &B.UpLength));
+	lengthB = SeparateAxis(A.Up, B.RightLength, B.UpLength);
 	length = fabsf(D3DXVec2Dot(&A.Up, &distance));
 	if (length > lengthA + lengthB) return false;
 
 	//B.Right
 	lengthA = D3DXVec2Length(&B.RightLength);
-	lengthB = fabsf(D3DXVec2Dot(&B.Right, &A.RightLength)) + fabsf(D3DXVec2Dot(&B.Right, &A.UpLength));
+	lengthB = SeparateAxis(B.Right, A.RightLength, A.UpLength);
 	length = fabsf(D3DXVec2Dot(&B.Right, &distance));
 	if (length > lengthA + lengthB) return false;
 
 	//B.Up
 	lengthA = D3DXVec2Length(&B.UpLength);
-	lengthB = fabsf(D3DXVec2Dot(&B.Up, &A.RightLength)) + fabsf(D3DXVec2Dot(&B.Up, &A.UpLength));
+	lengthB = SeparateAxis(B.Up, A.RightLength, A.UpLength);
 	length = fabsf(D3DXVec2Dot(&B.Up, &distance));
 	if (length > lengthA + lengthB) return false;
 
 	return true;
+}
+
+float Collider::SeparateAxis(Vector2& init, Vector2& e1, Vector2& e2)
+{
+	return fabsf(D3DXVec2Dot(&init, &e1)) + fabsf(D3DXVec2Dot(&init, &e2));
 }
 
 void Collider::CreateObb(ObbDesc* out, Vector2& half, Matrix& transform)

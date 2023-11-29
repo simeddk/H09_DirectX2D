@@ -22,6 +22,7 @@ public:
 
 public:
 	static bool Obb(Sprite* a, Sprite* b);
+	static float SeparateAxis(Vector2& init, Vector2& e1, Vector2& e2);
 
 private:
 	static void CreateObb(ObbDesc* out, Vector2& half, Matrix& transform);

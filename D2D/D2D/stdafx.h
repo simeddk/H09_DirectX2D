@@ -102,3 +102,6 @@ extern ID3D11RenderTargetView* RTV;
 
 //SingleToneLike Global Variable
 extern Keyboard* Key;
+
+//Temp
+extern POINT mousePosition;

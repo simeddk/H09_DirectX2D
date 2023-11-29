@@ -163,6 +163,7 @@
     <ClCompile Include="Scene\ObbDemo.cpp" />
     <ClCompile Include="Scene\Scene01Demo.cpp" />
     <ClCompile Include="Scene\Scene02Demo.cpp" />
+    <ClCompile Include="Scene\ScreenSpaceDemo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -198,6 +199,7 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene01Demo.h" />
     <ClInclude Include="Scene\Scene02Demo.h" />
+    <ClInclude Include="Scene\ScreenSpaceDemo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System\Device.h" />
     <ClInclude Include="System\DirectWrite.h" />

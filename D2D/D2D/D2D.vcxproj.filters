@@ -90,6 +90,9 @@
     <ClCompile Include="Scene\ObbDemo.cpp">
       <Filter>Scenes\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\ScreenSpaceDemo.cpp">
+      <Filter>Scenes\Mouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -186,6 +189,9 @@
     <ClInclude Include="Scene\ObbDemo.h">
       <Filter>Scenes\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\ScreenSpaceDemo.h">
+      <Filter>Scenes\Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="System">
@@ -214,6 +220,9 @@
     </Filter>
     <Filter Include="Scenes\Collision">
       <UniqueIdentifier>{0a5e723e-6d63-40ca-a33b-3946b9e43af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Mouse">
+      <UniqueIdentifier>{7c52ed2d-c28a-4ef2-a535-1d89f594f264}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

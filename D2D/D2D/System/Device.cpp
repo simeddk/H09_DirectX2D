@@ -38,6 +38,8 @@ ID3D11RenderTargetView* RTV = nullptr;
 
 Keyboard* Key = nullptr;
 
+POINT mousePosition = { 0, 0 };
+
 //-----------------------------------------------------------------------------
 //@@ Creaet Window Object
 //-----------------------------------------------------------------------------
@@ -251,6 +253,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg)
 	{
+		case WM_MOUSEMOVE :
+		{
+			mousePosition.x = LOWORD(lParam);
+			mousePosition.y = HIWORD(lParam);
+		}
+		break;
+
 		case WM_SIZE :
 		{
 			if (Device != nullptr)

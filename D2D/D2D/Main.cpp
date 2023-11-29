@@ -6,12 +6,13 @@
 #include "Scene/Scene02Demo.h"
 #include "Scene/AabbDemo.h"
 #include "Scene/ObbDemo.h"
+#include "Scene/ScreenSpaceDemo.h"
 
 vector<Scene*> scenes;
 
 void InitScene()
 {
-	scenes.push_back(new ObbDemo());
+	scenes.push_back(new ScreenSpaceDemo());
 }
 
 void DestroyScene()

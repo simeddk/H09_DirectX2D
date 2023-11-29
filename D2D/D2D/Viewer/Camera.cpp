@@ -12,7 +12,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	Vector3 eye(position.x, position.y, 0.f);
+	Vector3 eye(position.x, position.y, depth);
 	Vector3 at(0, 0, 1);
 	Vector3 up(0, 1, 0);
 

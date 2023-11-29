@@ -64,6 +64,7 @@ typedef D3DXMATRIX Matrix;
 
 //Framework
 #include "System/Keyboard.h"
+#include "System/Mouse.h"
 #include "System/Time.h"
 #include "System/DirectWrite.h"
 #include "System/Gui.h"
@@ -102,6 +103,4 @@ extern ID3D11RenderTargetView* RTV;
 
 //SingleToneLike Global Variable
 extern Keyboard* Key;
-
-//Temp
-extern POINT mousePosition;
+extern CMouse* Mouse;

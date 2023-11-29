@@ -37,8 +37,7 @@ ID3D11DeviceContext* DeviceContext = nullptr;
 ID3D11RenderTargetView* RTV = nullptr;
 
 Keyboard* Key = nullptr;
-
-POINT mousePosition = { 0, 0 };
+CMouse* Mouse = nullptr;
 
 //-----------------------------------------------------------------------------
 //@@ Creaet Window Object
@@ -192,6 +191,7 @@ WPARAM Running()
 	Context::Create();
 
 	Key = new Keyboard();
+	Mouse = new CMouse();
 
 	//GamePlay RunTime
 	InitScene();
@@ -209,8 +209,9 @@ WPARAM Running()
 			//Update
 			Time::Get()->Update();
 			Gui::Get()->Update();
-
 			Context::Get()->Update();
+			Mouse->Update();
+
 			Update();
 
 			//Render
@@ -234,6 +235,7 @@ WPARAM Running()
 	//EndPlay
 	DestroyScene();
 	
+	SafeDelete(Mouse);
 	SafeDelete(Key);
 	Context::Delete();
 	Time::Delete();
@@ -251,15 +253,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	if (Gui::Get()->MsgProc(Hwnd, msg, wParam, lParam))
 		return true;
 
+	if (Mouse != nullptr)
+		Mouse->WndProc(msg, wParam, lParam);
+
 	switch (msg)
 	{
-		case WM_MOUSEMOVE :
-		{
-			mousePosition.x = LOWORD(lParam);
-			mousePosition.y = HIWORD(lParam);
-		}
-		break;
-
 		case WM_SIZE :
 		{
 			if (Device != nullptr)

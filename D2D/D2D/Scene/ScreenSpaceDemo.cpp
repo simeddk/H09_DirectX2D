@@ -26,7 +26,7 @@ ScreenSpaceDemo::~ScreenSpaceDemo()
 
 void ScreenSpaceDemo::Update()
 {
-	ImGui::LabelText("Mouse Position", "%d, %d", mousePosition.x, mousePosition.y);
+	//ImGui::LabelText("Mouse Position", "%d, %d", mousePosition.x, mousePosition.y);
 
 	perFrame->Update();
 	background->Update();

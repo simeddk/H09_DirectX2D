@@ -24,6 +24,7 @@ Rect::Rect(Shader* shader, Vector2 position, Vector2 scale, D3DXCOLOR color)
 void Rect::Initialize(Shader* shader)
 {
 	perFrame = new PerFrame(shader);
+	collider = new Collider();
 
 	CreateBuffer();
 
@@ -87,11 +88,15 @@ Rect::~Rect()
 {
 	SafeRelease(vertexBuffer);
 	SafeRelease(indexBuffer);
+	
+	SafeDelete(perFrame);
+	SafeDelete(collider);
 }
 
 void Rect::Update()
 {
 	perFrame->Update();
+	collider->Update(world);
 }
 
 void Rect::Render()
@@ -108,6 +113,8 @@ void Rect::Render()
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	shader->DrawIndexed(0, pass, 6);
+
+	collider->Render();
 }
 
 void Rect::ApplyTo()

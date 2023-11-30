@@ -102,6 +102,9 @@
     <ClCompile Include="Scene\SpawnDemo.cpp">
       <Filter>Scenes\Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\FileDemo.cpp">
+      <Filter>Scenes\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -210,6 +213,9 @@
     <ClInclude Include="Scene\SpawnDemo.h">
       <Filter>Scenes\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\FileDemo.h">
+      <Filter>Scenes\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="System">
@@ -241,6 +247,9 @@
     </Filter>
     <Filter Include="Scenes\Mouse">
       <UniqueIdentifier>{7c52ed2d-c28a-4ef2-a535-1d89f594f264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\File">
+      <UniqueIdentifier>{600a9269-a2cf-40e8-a5ce-fc002791c421}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

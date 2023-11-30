@@ -33,9 +33,9 @@ VertexOutput VS(VertexInput input)
 float4 Color;
 float4 PS(VertexOutput input) : SV_Target
 {
-	return lerp(Color, float4(0, 0, 0, 1), input.Uv.y);
+	//return lerp(Color, float4(0, 0, 0, 1), input.Uv.y);
 	
-	//return Color;
+	return Color;
 }
 
 technique11 T0

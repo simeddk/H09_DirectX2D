@@ -34,6 +34,8 @@ public:
 
 	void Pass(UINT val) { pass = val; }
 
+	Collider* GetCollider() { return collider; }
+
 private:
 	struct Vertex
 	{
@@ -47,6 +49,8 @@ private:
 
 	ID3D11Buffer* vertexBuffer = nullptr;
 	ID3D11Buffer* indexBuffer = nullptr;
+
+	Collider* collider = nullptr;
 
 	Vector2 position;
 	Vector2 scale;

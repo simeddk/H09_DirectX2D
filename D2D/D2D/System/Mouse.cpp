@@ -17,6 +17,9 @@ CMouse::CMouse()
 
 void CMouse::Update()
 {
+	//임구이 위에 마우스 있으면 리턴
+	CheckTrue(ImGui::IsAnyItemHovered() || ImGui::IsAnyWindowHovered());
+
 	//이전 업데이트 때 넣었던 버튼 클릭 상태를 prev 배열로 복사
 	memcpy(buttonPrevStatus, buttonStatus, sizeof(BYTE) * MAX_MOUSE_INPUT);
 

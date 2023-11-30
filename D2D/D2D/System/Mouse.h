@@ -17,9 +17,10 @@ public:
 public:
 	Vector2 Position_OnViewport() { return position; }
 	Vector2 Position_OnClient() { return Vector2(wheelStatus.x, wheelStatus.y); }
-	float Wheel() { return wheelStatus.z; }
-
 	Vector2 Position_Delta() { return Vector2(wheelMoveValue.x, wheelMoveValue.y); }
+	Vector2 Position_World();
+
+	float Wheel() { return wheelStatus.z; }
 	float Wheel_Delta() { return wheelMoveValue.z; }
 
 public:

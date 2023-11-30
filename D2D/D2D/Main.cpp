@@ -8,12 +8,13 @@
 #include "Scene/ObbDemo.h"
 #include "Scene/ScreenSpaceDemo.h"
 #include "Scene/MouseDemo.h"
+#include "Scene/SpawnDemo.h"
 
 vector<Scene*> scenes;
 
 void InitScene()
 {
-	scenes.push_back(new MouseDemo());
+	scenes.push_back(new SpawnDemo());
 }
 
 void DestroyScene()

@@ -12,6 +12,9 @@ public:
 
 	void ApplyTo();
 
+	Matrix World() { return world; }
+	void World(Matrix& matrix) { world = matrix; }
+
 private:
 	void CreateBuffer();
 	void Initialize(Shader* shader);

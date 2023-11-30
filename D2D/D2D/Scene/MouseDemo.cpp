@@ -27,11 +27,11 @@ MouseDemo::~MouseDemo()
 void MouseDemo::Update()
 {
 	if (Mouse->DoubleClick(LButton))
-		MessageBox(Hwnd, L"왼버튼", L"Down", MB_OK);
+		MessageBox(Hwnd, L"왼버튼", L"DoubleClick", MB_OK);
 	if (Mouse->Down(MButton))
 		MessageBox(Hwnd, L"중버튼", L"Down", MB_OK);
-	if (Mouse->Up(RButton))
-		MessageBox(Hwnd, L"우버튼", L"Up", MB_OK);
+	//if (Mouse->Up(RButton))
+	//	MessageBox(Hwnd, L"우버튼", L"Up", MB_OK);
 
 	ImGui::LabelText("OnViewport", "%.2f, %.2f", Mouse->Position_OnViewport().x, Mouse->Position_OnViewport().y);
 	ImGui::LabelText("OnClient", "%.2f, %.2f", Mouse->Position_OnClient().x, Mouse->Position_OnClient().y);

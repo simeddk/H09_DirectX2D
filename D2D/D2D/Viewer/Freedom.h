@@ -3,7 +3,7 @@
 class Freedom : public Camera
 {
 public:
-	Freedom(float speed = 200.f);
+	Freedom(float speed = 1200.f);
 	~Freedom();
 
 	void Update() override;

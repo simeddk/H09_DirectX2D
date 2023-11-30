@@ -57,10 +57,50 @@ void CMouse::Update()
 	wheelStatus.y = (float)point.y;
 
 	wheelMoveValue = wheelStatus - wheelOldStatus;
-	//wheelOldStatus.z = wheelStatus.z;
 
 	//더블 클릭
+	UINT time = GetTickCount();
+	for (int i = 0; i < MAX_MOUSE_INPUT; i++)
+	{
+		//버튼 클릭
+		if (buttonMap[i] == EButtonStateType::Down)
+		{
+			//이미 한번 눌린 적이 있다
+			if (buttonCount[i] == 1)
+			{
+				//첫번째 누른 시간과 현재 누른 시간이 허용 시간을 넘어가면 => 실패
+				if (time - startDoubleClickTime[i] >= doubleClickTime)
+					buttonCount[i] = 0;
+			}
 
+			//버튼 누른 회수 증가
+			buttonCount[i]++;
+
+			//눌렀을 때 당시의 시간을 저장
+			if (buttonCount[i] == 1)
+				startDoubleClickTime[i] = time;
+		}//if(down)
+
+		//버튼을 뗐을 때
+		if (buttonMap[i] == EButtonStateType::Up)
+		{
+			//허용 시간 내에 두번을 눌렀다
+			if (buttonCount[i] >= 2)
+			{
+				//버튼을 허용 시간 이후로 너무 늦게 뗐을 때
+				if (time - startDoubleClickTime[i] > doubleClickTime)
+					buttonCount[i] = 0;
+
+				//성공 조건
+				else if (time - startDoubleClickTime[i] <= doubleClickTime)
+				{
+					buttonMap[i] = EButtonStateType::DoubleClick;
+					buttonCount[i] = 0;
+				}
+			}
+		}//if(up)
+
+	}//for
 }
 
 void CMouse::WndProc(UINT message, WPARAM wParam, LPARAM lparam)
@@ -73,9 +113,35 @@ void CMouse::WndProc(UINT message, WPARAM wParam, LPARAM lparam)
 
 	if (message == WM_MOUSEWHEEL)
 	{
-		 WORD wheelValue = HIWORD(wParam);
+		 short wheelValue = (short)HIWORD(wParam);
 
 		 wheelOldStatus.z = wheelStatus.z;
 		 wheelStatus.z += (float)wheelValue;
 	}
+}
+
+Vector2 CMouse::Position_World()
+{
+	//viewport -> ratio(0~1)
+	Vector2 ratio;
+	ratio.x = position.x / (float)Width;
+	ratio.y = position.y / (float)Height;
+
+	//ratio -> ndc(-1~1)
+	Vector2 ndc;
+	ndc.x = ratio.x * 2.f - 1.f;
+	ndc.y = (ratio.y * 2.f - 1.f) * -1.f;
+
+	//(V * P)[-1]
+	Matrix vp = Context::Get()->GetCamera()->View() * Context::Get()->Projection();
+	D3DXMatrixInverse(&vp, nullptr, &vp);
+
+	//ndc * (V * P)[-1] == ndc / (V * P)
+	Vector2 world;
+	D3DXVec2TransformCoord(&world, &ndc, &vp);
+	ImGui::Text("%.2f, %.2f", world.x, world.y);
+	//viewport(SS) = W * V * P
+	//W = viewport(SS) / VP
+
+	return world;
 }

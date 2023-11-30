@@ -99,6 +99,9 @@
     <ClCompile Include="Scene\MouseDemo.cpp">
       <Filter>Scenes\Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\SpawnDemo.cpp">
+      <Filter>Scenes\Mouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -202,6 +205,9 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Scene\MouseDemo.h">
+      <Filter>Scenes\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SpawnDemo.h">
       <Filter>Scenes\Mouse</Filter>
     </ClInclude>
   </ItemGroup>

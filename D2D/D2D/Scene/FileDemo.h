@@ -19,6 +19,9 @@ private:
 
 	void  SaveMarkers();
 	void  LoadMarkers();
+
+	void SaveAsXml();
+	void LoadAsXml();
 	
 
 private:

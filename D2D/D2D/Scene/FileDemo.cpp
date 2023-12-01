@@ -3,6 +3,7 @@
 #include "Objects/Rect.h"
 #include "Objects/Marco.h"
 #include "Objects/Marker.h"
+#include "Utilities/Xml.h"
 
 FileDemo::FileDemo()
 {
@@ -86,6 +87,22 @@ void FileDemo::Update()
 
 			if (ImGui::Button("Load Markers"))
 				LoadMarkers();
+		}
+	}
+
+	//Save & Load Background(as XML)
+	{
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		if (ImGui::CollapsingHeader("Background", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			if (ImGui::Button("Save Xml"))
+				SaveAsXml();
+			ImGui::SameLine();
+
+			if (ImGui::Button("Load Xml"))
+				LoadAsXml();
 		}
 	}
 
@@ -213,4 +230,72 @@ void FileDemo::LoadMarkers()
 
 	rect->Position(rectPosition);
 	rect->Color(rectColor);
+}
+
+void FileDemo::SaveAsXml()
+{
+	Xml::XMLDocument* document = new Xml::XMLDocument();
+	Xml::XMLDeclaration* decl = document->NewDeclaration();
+	document->LinkEndChild(decl);
+
+	Xml::XMLElement* root = document->NewElement("Background");
+	root->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+	root->SetAttribute("xmlns:xsd", "http://www.w3.org/2001/XMLSchema");
+	document->LinkEndChild(root);
+
+	Xml::XMLElement* node = document->NewElement("Texture");
+	root->LinkEndChild(node);
+
+	Xml::XMLElement* element = nullptr;
+	
+	element = document->NewElement("Name");
+	wstring onlyFilePath = background->GetTextureFile();
+	String::Replace(&onlyFilePath, L"../../_Textures/Background/", L"");
+	element->SetText(String::ToString(onlyFilePath).c_str());
+	node->LinkEndChild(element);
+
+	element = document->NewElement("Width");
+	element->SetText(background->GetTextureSize().x);
+	node->LinkEndChild(element);
+
+	element = document->NewElement("Height");
+	element->SetText(background->GetTextureSize().y);
+	node->LinkEndChild(element);
+
+	document->SaveFile("../../_Datas/Background.xml");
+	SafeDelete(document);
+}
+
+void FileDemo::LoadAsXml()
+{
+	Xml::XMLDocument* document = new Xml::XMLDocument();
+	Xml::XMLError error = document->LoadFile("../../_Datas/Background.xml");
+	assert(error == Xml::XML_SUCCESS);
+
+	Xml::XMLElement* root = document->FirstChildElement();
+	Xml::XMLElement* texture = root->FirstChildElement();
+
+	Xml::XMLElement* element = texture->FirstChildElement();
+	string name = element->GetText();
+
+	element = element->NextSiblingElement();
+	int width = element->IntText();
+
+	element = element->NextSiblingElement();
+	int height = element->IntText();
+
+	SafeDelete(document);
+
+	wstring msg = L"FileName : ";
+	msg += String::ToWString(name);
+	msg += L"\n";
+
+	msg += L"Width : ";
+	msg += to_wstring(width);
+	msg += L"\n";
+
+	msg += L"Height : ";
+	msg += to_wstring(height);
+
+	MessageBox(Hwnd, msg.c_str(), L"Background Information", MB_OK);
 }

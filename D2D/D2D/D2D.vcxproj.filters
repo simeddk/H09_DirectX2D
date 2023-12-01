@@ -105,6 +105,9 @@
     <ClCompile Include="Scene\FileDemo.cpp">
       <Filter>Scenes\File</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\Xml.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="Scene\FileDemo.h">
       <Filter>Scenes\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Xml.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

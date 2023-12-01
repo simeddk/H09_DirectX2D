@@ -26,6 +26,8 @@ public:
 	Vector2 GetTextureSize() { return textureSize; }
 	Matrix World() { return world; }
 
+	wstring GetTextureFile() { return textureFile; }
+
 public:
 	void Position(float x, float y);
 	void Position(Vector2 vec);

@@ -58,3 +58,18 @@ private:
 	bool bComplete;
 	UINT count;
 };
+
+///////////////////////////////////////////////////////////////////////////////
+
+class Performance
+{
+public:
+	Performance();
+
+	void Start();
+	float End();
+
+private:
+	__int64 tick;
+	__int64 start, end;
+};

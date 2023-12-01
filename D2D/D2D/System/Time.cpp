@@ -140,3 +140,22 @@ void Timer::Stop()
 
 	bComplete = true;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+Performance::Performance()
+{
+	QueryPerformanceFrequency((LARGE_INTEGER*)&tick);
+}
+
+void Performance::Start()
+{
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+}
+
+float Performance::End()
+{
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+
+	return (float)((double)(end - start) / tick * 1000);
+}

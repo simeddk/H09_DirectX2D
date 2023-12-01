@@ -180,6 +180,7 @@
     <ClCompile Include="Utilities\Math.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
+    <ClCompile Include="Utilities\Xml.cpp" />
     <ClCompile Include="Viewer\Camera.cpp" />
     <ClCompile Include="Viewer\Follow.cpp" />
     <ClCompile Include="Viewer\Freedom.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Utilities\Math.h" />
     <ClInclude Include="Utilities\Path.h" />
     <ClInclude Include="Utilities\String.h" />
+    <ClInclude Include="Utilities\Xml.h" />
     <ClInclude Include="Viewer\Camera.h" />
     <ClInclude Include="Viewer\Follow.h" />
     <ClInclude Include="Viewer\Freedom.h" />

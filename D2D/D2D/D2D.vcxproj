@@ -161,6 +161,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Scene\AabbDemo.cpp" />
     <ClCompile Include="Scene\FileDemo.cpp" />
+    <ClCompile Include="Scene\FileDialogDemo.cpp" />
     <ClCompile Include="Scene\MouseDemo.cpp" />
     <ClCompile Include="Scene\ObbDemo.cpp" />
     <ClCompile Include="Scene\Scene01Demo.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="System\Keyboard.cpp" />
     <ClCompile Include="System\Mouse.cpp" />
     <ClCompile Include="System\Time.cpp" />
+    <ClCompile Include="Utilities\BinaryFile.cpp" />
     <ClCompile Include="Utilities\Math.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
@@ -201,6 +203,7 @@
     <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="Scene\AabbDemo.h" />
     <ClInclude Include="Scene\FileDemo.h" />
+    <ClInclude Include="Scene\FileDialogDemo.h" />
     <ClInclude Include="Scene\MouseDemo.h" />
     <ClInclude Include="Scene\ObbDemo.h" />
     <ClInclude Include="Scene\Scene.h" />
@@ -216,6 +219,7 @@
     <ClInclude Include="System\Keyboard.h" />
     <ClInclude Include="System\Mouse.h" />
     <ClInclude Include="System\Time.h" />
+    <ClInclude Include="Utilities\BinaryFile.h" />
     <ClInclude Include="Utilities\Math.h" />
     <ClInclude Include="Utilities\Path.h" />
     <ClInclude Include="Utilities\String.h" />

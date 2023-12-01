@@ -10,12 +10,13 @@
 #include "Scene/MouseDemo.h"
 #include "Scene/SpawnDemo.h"
 #include "Scene/FileDemo.h"
+#include "Scene/FileDialogDemo.h"
 
 vector<Scene*> scenes;
 
 void InitScene()
 {
-	scenes.push_back(new FileDemo());
+	scenes.push_back(new FileDialogDemo());
 }
 
 void DestroyScene()

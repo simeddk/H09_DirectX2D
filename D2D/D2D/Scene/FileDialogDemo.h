@@ -2,11 +2,11 @@
 
 #include "Scene.h"
 
-class FileDemo : public Scene
+class FileDialogDemo : public Scene
 {
 public:
-	FileDemo();
-	~FileDemo();
+	FileDialogDemo();
+	~FileDialogDemo();
 
 	void Update() override;
 	void PreRender() override {}
@@ -14,30 +14,15 @@ public:
 	void PostRender() override {}
 
 private:
-	void SaveAsCSV();
-	void LoadAsCSV();
-
-	void  SaveMarkers();
-	void  LoadMarkers();
-
-	void SaveAsXml();
-	void LoadAsXml();
-
 	void SaveAsBinary();
 	void LoadAsBinary();
 	
+	void OnOpenCompleted(wstring path);
 
 private:
 	Shader* shader = nullptr;
 	PerFrame* perFrame = nullptr;
 
 	Sprite* background = nullptr;
-
-	class Rect* rect = nullptr;
-	Shader* rectShader = nullptr;
-
 	vector<class Marker*> markers;
-
-	Vector2 rectPosition;
-	Color rectColor;
 };

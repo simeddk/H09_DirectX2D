@@ -144,6 +144,9 @@ void Timer::Stop()
 ///////////////////////////////////////////////////////////////////////////////
 
 Performance::Performance()
+	: tick(0)
+	, start(0)
+	, end(0)
 {
 	QueryPerformanceFrequency((LARGE_INTEGER*)&tick);
 }

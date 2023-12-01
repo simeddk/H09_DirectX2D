@@ -4,6 +4,7 @@
 #include "Objects/Marco.h"
 #include "Objects/Marker.h"
 #include "Utilities/Xml.h"
+#include "Utilities/BinaryFile.h"
 
 FileDemo::FileDemo()
 {
@@ -67,7 +68,7 @@ void FileDemo::Update()
 
 	//Spawn Marker
 	{
-		if (Mouse->Down(LButton))
+		if (Mouse->Press(LButton))
 			markers.push_back(new Marker(shader, wPosition));
 
 		if (Key->Down(VK_ESCAPE))
@@ -81,12 +82,21 @@ void FileDemo::Update()
 
 		if (ImGui::CollapsingHeader("Markers", ImGuiTreeNodeFlags_DefaultOpen))
 		{
+			//TXT
 			if (ImGui::Button("Save Markers"))
 				SaveMarkers();
 			ImGui::SameLine();
 
 			if (ImGui::Button("Load Markers"))
 				LoadMarkers();
+
+			//BIN
+			if (ImGui::Button("Save Bin"))
+				SaveAsBinary();
+			ImGui::SameLine();
+
+			if (ImGui::Button("Load Bin"))
+				LoadAsBinary();
 		}
 	}
 
@@ -203,6 +213,9 @@ void FileDemo::LoadMarkers()
 
 	markers.clear();
 
+	Performance performance;
+	performance.Start();
+
 	FILE* buffer = nullptr;
 	fopen_s(&buffer, "../../_Datas/Markers.txt", "r");
 
@@ -227,6 +240,9 @@ void FileDemo::LoadMarkers()
 	}
 
 	fclose(buffer);
+
+	float elapsed = performance.End();
+	MessageBox(Hwnd, to_wstring(elapsed).c_str(), L"Txt Loaded", MB_OK);
 
 	rect->Position(rectPosition);
 	rect->Color(rectColor);
@@ -298,4 +314,51 @@ void FileDemo::LoadAsXml()
 	msg += to_wstring(height);
 
 	MessageBox(Hwnd, msg.c_str(), L"Background Information", MB_OK);
+}
+
+void FileDemo::SaveAsBinary()
+{
+	BinaryWriter* w = new BinaryWriter(L"../../_Datas/Markers.bin");
+
+	w->UInt(markers.size());
+
+	for (size_t i = 0; i < markers.size(); i++)
+	{
+		w->UInt(i);
+		w->Vector2(markers[i]->Position());
+	}
+
+	SafeDelete(w);
+}
+
+void FileDemo::LoadAsBinary()
+{
+	if (Path::ExistFile(L"../../_Datas/Markers.bin") == false)
+	{
+		MessageBox(Hwnd, L"파일 없음...", L"Error", MB_OK);
+		return;
+	}
+
+	markers.clear();
+
+	Performance performace;
+	performace.Start();
+
+	BinaryReader* r = new BinaryReader(L"../../_Datas/Markers.bin");
+
+	UINT count = r->UInt();
+	for (size_t i = 0; i < count; i++)
+	{
+		UINT index = r->UInt();
+		Vector2 position = r->Vector2();
+
+		markers.push_back(new Marker(shader, position));
+	}
+
+	SafeDelete(r);
+
+	float elapsed = performace.End();
+	MessageBox(Hwnd, to_wstring(elapsed).c_str(), L"Bin Loaded", MB_OK);
+
+
 }

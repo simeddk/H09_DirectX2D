@@ -47,24 +47,43 @@ void FileDialogDemo::Update()
 			function<void(wstring)> onOpenCompleted;
 			onOpenCompleted = bind(&FileDialogDemo::OnOpenCompleted, this, placeholders::_1);
 
-			if (ImGui::Button("Dialog Example"))
-			{
-				Path::OpenFileDialog
-				(
-					L"Sonic.png",
-					L"Binary Files(bin)\0*.bin",
-					L"../../_Datas/",
-					onOpenCompleted,
-					Hwnd
-				);
-			}
-
 			if (ImGui::Button("Save Bin"))
 				SaveAsBinary();
 			ImGui::SameLine();
 
 			if (ImGui::Button("Load Bin"))
 				LoadAsBinary();
+
+			if (ImGui::Button("Save"))
+			{
+				function<void(wstring)> onSaveCompleted;
+				onSaveCompleted = bind(&FileDialogDemo::OnSaveCompleted, this, placeholders::_1);
+
+				Path::SaveFileDialog
+				(
+					L"",
+					L"Binary Files(bin)\0*.bin",
+					L"../../_Datas/",
+					onSaveCompleted,
+					Hwnd
+				);
+			}
+
+			ImGui::SameLine();
+			if (ImGui::Button("Load"))
+			{
+				function<void(wstring)> onOpenCompleted;
+				onOpenCompleted = bind(&FileDialogDemo::OnOpenCompleted, this, placeholders::_1);
+
+				Path::OpenFileDialog
+				(
+					L"",
+					L"Binary Files(bin)\0*.bin",
+					L"../../_Datas/",
+					onOpenCompleted,
+					Hwnd
+				);
+			}
 		}
 	}
 
@@ -131,7 +150,44 @@ void FileDialogDemo::LoadAsBinary()
 
 }
 
+void FileDialogDemo::OnSaveCompleted(wstring path)
+{
+	BinaryWriter* w = new BinaryWriter(path + L".bin");
+
+	w->UInt(markers.size());
+
+	for (size_t i = 0; i < markers.size(); i++)
+	{
+		w->UInt(i);
+		w->Vector2(markers[i]->Position());
+	}
+
+	SafeDelete(w);
+
+	wstring msg = path + L".bin 파일을 저장했습니다.";
+	MessageBox(Hwnd, msg.c_str(), L"저장 완료", MB_OK);
+}
+
 void FileDialogDemo::OnOpenCompleted(wstring path)
 {
-	MessageBox(Hwnd, path.c_str(), L"Open", MB_OK);
+	markers.clear();
+
+	Performance performace;
+	performace.Start();
+
+	BinaryReader* r = new BinaryReader(path);
+
+	UINT count = r->UInt();
+	for (size_t i = 0; i < count; i++)
+	{
+		UINT index = r->UInt();
+		Vector2 position = r->Vector2();
+
+		markers.push_back(new Marker(shader, position));
+	}
+
+	SafeDelete(r);
+
+	float elapsed = performace.End();
+	MessageBox(Hwnd, to_wstring(elapsed).c_str(), L"Bin Loaded", MB_OK);
 }

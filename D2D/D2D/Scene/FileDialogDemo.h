@@ -17,6 +17,7 @@ private:
 	void SaveAsBinary();
 	void LoadAsBinary();
 	
+	void OnSaveCompleted(wstring path);
 	void OnOpenCompleted(wstring path);
 
 private:
